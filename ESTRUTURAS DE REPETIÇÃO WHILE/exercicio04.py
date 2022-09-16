@@ -6,3 +6,17 @@ pares e 2 números ímpares
 numUm = int(input("Digite o primeiro número: "))
 numDois = int(input("Digite o segundo número: "))
 
+i = numUm
+impar = 0
+par = 0
+
+while i <= numDois:
+    if i%2 == 0:
+        par = par+1
+
+    elif i%2 != 0:
+        impar = impar + 1
+
+    i = i + 1
+
+print(f"Entre {numUm} e {numDois} há {par} números pares e {impar} números ímpares.")
