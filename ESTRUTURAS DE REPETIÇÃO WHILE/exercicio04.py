@@ -14,7 +14,7 @@ while i <= numDois:
     if i%2 == 0:
         par = par+1
 
-    elif i%2 != 0:
+    else:
         impar = impar + 1
 
     i = i + 1
