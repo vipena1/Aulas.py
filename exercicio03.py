@@ -9,3 +9,6 @@ for num in range(1, 21):
 print(f'A soma dos números pares entre 1 e 20 é: {soma}')
 
 
+
+
+
