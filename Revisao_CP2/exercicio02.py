@@ -3,9 +3,9 @@
 dentro = 0
 fora = 0
 
-for n in range(0, 10):
+for n in range(1, 11):
 
-    valor = int(input("Digite um valor: "))
+    valor = int(input(f"Digite o {n}° número para conferir: "))
 
     if 10 <= valor <= 20:
         dentro = dentro + 1
