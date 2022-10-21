@@ -7,15 +7,14 @@ listaInter = []
 soma = 0
 
 for i in range(1, 11):
-    num = float(input(f"Digite o {i}° número da 1° lista: "))
-    listaUm.append(num)
+    numListaUm = int(input(f"Digite o {i}° número da lista 1: "))
+    listaUm.append(numListaUm)
+    listaInter.append(numListaUm)
 
-for i in range(1, 11):
-    num = float(input(f"Digite o {i}° número da 2° lista: "))
-    listaDois.append(num)
-
-
-
+    numListaDois = int(input(f"Digite o {i}° número da lista 2: "))
+    listaDois.append(numListaDois)
+    listaInter.append(numListaDois)
+    
 print(listaUm)
 print(listaDois)
 print(listaInter)
