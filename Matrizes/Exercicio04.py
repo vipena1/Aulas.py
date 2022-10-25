@@ -2,7 +2,10 @@
 soma. Imprima na tela a matriz, a linha de maior soma e a soma. """
 
 matriz = []
+lin_maior = []
+maior = 0
 
+# Criando a matriz
 for lin in range(0, 3):
     linha = []
 
@@ -12,6 +15,7 @@ for lin in range(0, 3):
 
     matriz.append(linha)
 
+# Indentificando a linha maior e a soma
 for lin in range(0, 3):
     soma = 0
 
