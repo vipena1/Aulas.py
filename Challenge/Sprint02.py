@@ -10,6 +10,7 @@ i = 99
 while i != 0:
 
     if i == 99:
+        # Menu principal com as primeiras funções
         i = int(input("""\nBEM-VINDO!
 PARA NAVEGAR ENTRE OS MENUS, DIGITE O NÚMERO DESEJADO:
 1 - SIMULADOR
@@ -21,6 +22,7 @@ PARA NAVEGAR ENTRE OS MENUS, DIGITE O NÚMERO DESEJADO:
 QUAL OPÇÃO DESEJA SELECIONAR? """))
 
     if i == 1:
+        # Função ao executar a opção 1 do menu principal
         print("""ESSE É O NOSSO SIMULADOR DE INVESTIMENTOS, PARA UTILIZA-LO, PREENCHA OS CAMPOS ABAIXO:""")
         nomeEmpresa = str(input("Digite o nome da empresa: "))
         setorEmpresa = str(input("Digite o setor atuante da empresa: "))
@@ -28,13 +30,15 @@ QUAL OPÇÃO DESEJA SELECIONAR? """))
         i = int(input("DIGITE 1 PARA CONTINUAR, 99 PARA VOLTAR AO INICIO OU 0 PARA SAIR: "))
 
         if i == 1:
-            print("REALIZANDO SIMULAÇÃO...")
+            # Caso o usuário continue, o sistema irá realizar uma consulta no banco de dados através dos dados informados acima
+            print("REALIZANDO SIMULAÇÃO...")  # Simulando a consulta ao banco de dados
             sleep(2)
-            print(f"""A simulação com a empresa {nomeEmpresa} foi concluida!
+            print(f"""A simulação com a empresa {nomeEmpresa} foi concluída!
 Iremos te retornar para o menu inicial em alguns segundos...""")
             sleep(5)
-            i = 99
+            i = 99  # Ao finalizar a consulta, o sistema retornara o usuário para o primeiro menu
 
     if i == 0:
+        # Finalização da utilização do sistema
         print("Volte sempre!")
         sleep(2)
