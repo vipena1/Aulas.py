@@ -38,7 +38,44 @@ Iremos te retornar para o menu inicial em alguns segundos...""")
             sleep(5)
             i = 99  # Ao finalizar a consulta, o sistema retornara o usuário para o primeiro menu
 
-    if i == 0:
+    elif i == 2:
+        # Função ao executar a opção 1 do menu principal
+        print("\nSELECIONE UM DOCUMENTO DA LISTA SUSPENSA")
+        i = int(input("""1 - DOCUMENTO 1
+2 - DOCUMENTO 2
+3 - DOCUMENTO 3
+4 - DOCUMENTO 4
+99 - VOLTAR AO MENU INICIAL
+0 - SAIR
+
+DIGITE UMA OPÇÃO: """))
+
+        if i != 99 and i != 0:
+            i = int(input(f"""\nOs principais pontos do documento {i} são:
+1 - Ponto principal 1
+2 - Ponto principal 2
+3 - Ponto principal 3
+4 - Ponto principal 4
+5 - Ponto principal 5 
+
+Para leitura completa do topico selecione um item, ou: 
+
+99 - VOLTAR AO MENU INICIAL
+0 - SAIR
+
+DIGITE UM OPÇÃO: """))
+
+            if i != 99 and i != 0:
+                print(f"""DESCRIÇÃO COMPLETA DO TOPICO {i}""")
+                print("Ação 2 finalizada, em alguns segunso iremos te retornar para o menu principal...")
+                sleep(7)
+                i = 99
+
+    elif i == 0:
         # Finalização da utilização do sistema
         print("Volte sempre!")
-        sleep(2)
+
+    else:
+        print("Digite um opção valida! ")
+        sleep(3)
+        i = 99
