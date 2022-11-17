@@ -16,14 +16,13 @@ PARA NAVEGAR ENTRE OS MENUS, DIGITE O NÚMERO DESEJADO:
 1 - SIMULADOR
 2 - DOCUMENTAÇÃO
 3 - INFORMAÇÕES
-4 - COMPONENTES
 0 - SAIR
     
 QUAL OPÇÃO DESEJA SELECIONAR? """))
 
     if i == 1:
         # Função ao executar a opção 1 do menu principal
-        print("""ESSE É O NOSSO SIMULADOR DE INVESTIMENTOS, PARA UTILIZA-LO, PREENCHA OS CAMPOS ABAIXO:""")
+        print("ESSE É O NOSSO SIMULADOR DE INVESTIMENTOS, PARA UTILIZA-LO, PREENCHA OS CAMPOS ABAIXO:")
         nomeEmpresa = str(input("Digite o nome da empresa: "))
         setorEmpresa = str(input("Digite o setor atuante da empresa: "))
         anoAbertura = int(input("Digite o ano de abertura: "))
@@ -39,7 +38,7 @@ Iremos te retornar para o menu inicial em alguns segundos...""")
             i = 99  # Ao finalizar a consulta, o sistema retornara o usuário para o primeiro menu
 
     elif i == 2:
-        # Função ao executar a opção 1 do menu principal
+        # Função ao executar a opção 2 do menu principal
         print("\nSELECIONE UM DOCUMENTO DA LISTA SUSPENSA")
         i = int(input("""1 - DOCUMENTO 1
 2 - DOCUMENTO 2
@@ -50,7 +49,8 @@ Iremos te retornar para o menu inicial em alguns segundos...""")
 
 DIGITE UMA OPÇÃO: """))
 
-        if i != 99 and i != 0:
+        if 1 <= i <= 4:
+            # Função para seleção do ponto que será apresentado na tela para leitura
             i = int(input(f"""\nOs principais pontos do documento {i} são:
 1 - Ponto principal 1
 2 - Ponto principal 2
@@ -58,24 +58,66 @@ DIGITE UMA OPÇÃO: """))
 4 - Ponto principal 4
 5 - Ponto principal 5 
 
-Para leitura completa do topico selecione um item, ou: 
+Para leitura completa do tópico selecione um item, ou: 
 
 99 - VOLTAR AO MENU INICIAL
 0 - SAIR
 
-DIGITE UM OPÇÃO: """))
+DIGITE UMA OPÇÃO: """))
 
-            if i != 99 and i != 0:
-                print(f"""DESCRIÇÃO COMPLETA DO TOPICO {i}""")
-                print("Ação 2 finalizada, em alguns segunso iremos te retornar para o menu principal...")
+            if 1 <= i <= 5:
+                # Apresentação completa do ponto escolhido pelo usuário
+                print(f"DESCRIÇÃO COMPLETA DO TOPICO {i}")
+                print("Ação 2 finalizada, em alguns segundos iremos te retornar para o menu principal...")
                 sleep(7)
                 i = 99
 
-    elif i == 0:
+    elif i == 3:
+        # Função ao executar a opção 3 do menu principal
+        i = int(input("""\nSELECIONE O TÓPICO ABAIXO EM QUE DESEJA MAIS INFORMAÇÕES:
+1 - IPO
+2 - CVM
+3 - TUTORIAL
+4 - NOTICIAS
+99 - VOLTAR AO MENU INICIAL
+0 - SAIR
+
+DIGITE UMA OPÇÃO: """))
+
+        if 1 <= i <= 4:
+            # Função para seleção da informação do tópico que será apresentado na tela para leitura
+            i = int(input(f"""\nSELECIONE UMA INFORMAÇÃO PARA LER SOBRE O TÓPICO {i}
+1 - INFORMAÇÃO 1
+2 - INFORMAÇÃO 2
+3 - INFORMAÇÃO 3
+4 - INFORMAÇÃO 4
+5 - INFORMAÇÃO 5
+
+DIGITE UMA OPÇÃO: """))
+
+            if 1 <= i <= 5:
+                # Apresentação da informação escolhida do tópico selecionado
+                print(f"\nTexto sobre a informação {i}...")
+                print("Ação 3 finalizada, em alguns segundos iremos te retornar para o menu principal...")
+                sleep(7)
+                i = 99
+
+    if i == 99:
+        # Menu principal com as primeiras funções novamente, caso o usuário queira retornar para o menu
+        i = int(input("""\nPARA NAVEGAR ENTRE OS MENUS, DIGITE O NÚMERO DESEJADO:
+1 - SIMULADOR
+2 - DOCUMENTAÇÃO
+3 - INFORMAÇÕES
+0 - SAIR
+
+QUAL OPÇÃO DESEJA SELECIONAR? """))
+
+    if i == 0:
         # Finalização da utilização do sistema
         print("Volte sempre!")
 
     else:
-        print("Digite um opção valida! ")
+        # Tratativa de erro caso o usuário selecionar uma opção não existente
+        print("Digite uma opção válida! ")
         sleep(3)
         i = 99
