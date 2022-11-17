@@ -104,12 +104,12 @@ DIGITE UMA OPÇÃO: """))
                 sleep(7)
                 i = 99
 
+    elif i == 0:
+        # Finalização da utilização do sistema
+        print("Volte sempre!")
+
     else:
         # Tratativa de erro caso o usuário selecionar uma opção não existente
         print("Digite uma opção válida! ")
         sleep(1)
         i = 99
-
-    if i == 0:
-        # Finalização da utilização do sistema
-        print("Volte sempre!")
