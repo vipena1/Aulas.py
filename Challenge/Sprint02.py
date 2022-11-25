@@ -92,6 +92,8 @@ DIGITE UMA OPÇÃO: """))
 3 - INFORMAÇÃO 3
 4 - INFORMAÇÃO 4
 5 - INFORMAÇÃO 5
+99 - VOLTAR AO MENU INICIAL
+0 - SAIR
 
 DIGITE UMA OPÇÃO: """))
 
@@ -102,22 +104,12 @@ DIGITE UMA OPÇÃO: """))
                 sleep(7)
                 i = 99
 
-    if i == 99:
-        # Menu principal com as primeiras funções novamente, caso o usuário queira retornar para o menu
-        i = int(input("""\nPARA NAVEGAR ENTRE OS MENUS, DIGITE O NÚMERO DESEJADO:
-1 - SIMULADOR
-2 - DOCUMENTAÇÃO
-3 - INFORMAÇÕES
-0 - SAIR
-
-QUAL OPÇÃO DESEJA SELECIONAR? """))
-
-    if i == 0:
+    elif i == 0:
         # Finalização da utilização do sistema
         print("Volte sempre!")
 
     else:
         # Tratativa de erro caso o usuário selecionar uma opção não existente
         print("Digite uma opção válida! ")
-        sleep(3)
+        sleep(1)
         i = 99
