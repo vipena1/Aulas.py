@@ -10,6 +10,7 @@ def main():
     n = int(input("Difite um número: "))
     allPares(n)
     fatorial(n)
+    tabuada(n)
 
 def allPares(n):
     for i in range (1, n+1):
@@ -20,8 +21,11 @@ def fatorial(n):
     if n > 0:
         for i in range (1, n):
             n = n * i
-
         print(n)
+
+def tabuada(n):
+    for i in range (1, 11):
+        print(f"Tabuada do {n} x {i} = {n*i}")
 
 if __name__ == '__main__':
     main()
