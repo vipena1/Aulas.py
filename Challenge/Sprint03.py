@@ -81,10 +81,10 @@ QUAL INFORMAÇÃO DESEJA ALTERAR?"""))
                 print("Opção 2 ok")
 
             elif i == 0:  # Saida
-                print("Volte sempre!")
+                print("\nVolte sempre!")
 
             else:
-                print("Digite uma opção valida!")
+                print("\nDigite uma opção valida!")
 
         except ValueError:
             print("\nInsira uma opção valida.")
