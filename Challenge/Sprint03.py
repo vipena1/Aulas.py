@@ -8,7 +8,7 @@ Além disso, todas as informações solicitadas nessas telas, devem ser coerente
 
 from time import sleep
 
-usuario = [['João', 'Silva', 18], ["Maria", "Souza", 25], ["José", "Fernandes", 30]]
+listaUsuario = [['João', 'Silva', 18], ["Maria", "Souza", 25], ["José", "Fernandes", 30]]
 
 i = 99
 user = input("Digite o usuário: ")
@@ -33,24 +33,29 @@ Digite a opção desejada: """))
 QUAL OPÇÃO DESEJA SELECIONAR? """))
 
                 if i == 1:  # Apenas para vizualização dos usuários cadastrados.
-                    i = int(input(f"""\nLISTA DE USUÁRIOS: 
-1 - {usuario[0][0]}
-2 - {usuario[1][0]}
-3 - {usuario[2][0]}
-QUAL USUÁRIO DESEJA SELECIONAR? """))
+                    print("LISTA DE USUÁRIOS: ")
+                    for x in range(0, len(listaUsuario)):
+                        print(f"{x + 1} - {listaUsuario[x][0]}")
+
+                    i = int(input("QUAL USUÁRIO DESEJA VISUALIZAR? "))
+
+                    # i = int(input(f"""\nLISTA DE USUÁRIOS:
+                    # 1 - {listaUsuario[0][0]}
+                    # 2 - {listaUsuario[1][0]}
+                    # 3 - {listaUsuario[2][0]}
+                    # QUAL USUÁRIO DESEJA SELECIONAR? """))
 
                     print(f"""\nUSUÁRIO {i} SELECIONADO.
-NOME: {usuario[i - 1][0]}.
-SOBRE NOME: {usuario[i - 1][1]}
-IDADE: {usuario[i - 1][2]}""")
+NOME: {listaUsuario[i - 1][0]}.
+SOBRE NOME: {listaUsuario[i - 1][1]}
+IDADE: {listaUsuario[i - 1][2]}""")
                     sleep(3)
 
-                elif i == 2:
-                    i = int(input(f"""\nQUAL USUÁRIO VOCÊ DESEJA ALTERAR OS DADOS?
-1 - {usuario[0][0]}
-2 - {usuario[1][0]}
-3 - {usuario[2][0]}
-QUAL USUÁRIO DESEJA SELECIONAR?"""))
+                elif i == 2:  # Alteração de dados do usuário
+
+                    for x in range(0, len(listaUsuario)):
+                        print(f"{x + 1} - {listaUsuario[x][0]}")
+                    i = int(input("QUAL USUÁRIO DESEJA ALTERAR? "))
 
                     i2 = int(input("""\nABAIXO ESTÁ A LISTA DE INFORMAÇÕES DOS USUÁRIOS:
 1 - NOME
@@ -58,9 +63,28 @@ QUAL USUÁRIO DESEJA SELECIONAR?"""))
 3 - IDADE
 QUAL INFORMAÇÃO DESEJA ALTERAR?"""))
 
-                    usuario[i - 1][i2 - 1] = input("QUAL INFORMAÇÃO DESEJA PREENCHER? ")
+                    listaUsuario[i - 1][i2 - 1] = input("QUAL INFORMAÇÃO DESEJA PREENCHER? ")
                     sleep(2)
                     print("Alterado com sucesso!")
+
+                elif i == 3:  # Excluir usuário
+
+                    for x in range(0, len(listaUsuario)):
+                        print(f"{x + 1} - {listaUsuario[x][0]}")
+                    i = int(input("QUAL USUÁRIO DESEJA EXCLUIR? "))
+
+                    del listaUsuario[i - 1]
+                    print("Usuário removido do sistema.")
+                    sleep(2)
+
+            elif i ==2:  # Menu de ações para realizar com os dados das empresas.
+                print("Opção 2 ok")
+
+            elif i == 0:  # Saida
+                print("Volte sempre!")
+
+            else:
+                print("Digite uma opção valida!")
 
         except ValueError:
             print("\nInsira uma opção valida.")
@@ -108,13 +132,13 @@ QUAL INFORMAÇÃO DESEJA ALTERAR?"""))
         if i == 99:
             # Menu principal com as primeiras funções
             i = int(input("""\nBEM-VINDO!
-    PARA NAVEGAR ENTRE OS MENUS, DIGITE O NÚMERO DESEJADO:
-    1 - SIMULADOR
-    2 - DOCUMENTAÇÃO
-    3 - INFORMAÇÕES
-    0 - SAIR
+PARA NAVEGAR ENTRE OS MENUS, DIGITE O NÚMERO DESEJADO:
+1 - SIMULADOR
+2 - DOCUMENTAÇÃO
+3 - INFORMAÇÕES
+0 - SAIR
 
-    QUAL OPÇÃO DESEJA SELECIONAR? """))
+QUAL OPÇÃO DESEJA SELECIONAR? """))
 
         if i == 1:
             # Função ao executar a opção 1 do menu principal
@@ -129,7 +153,7 @@ QUAL INFORMAÇÃO DESEJA ALTERAR?"""))
                 print("REALIZANDO SIMULAÇÃO...")  # Simulando a consulta ao banco de dados
                 sleep(2)
                 print(f"""A simulação com a empresa {nomeEmpresa} foi concluída!
-    Iremos te retornar para o menu inicial em alguns segundos...""")
+Iremos te retornar para o menu inicial em alguns segundos...""")
                 sleep(5)
                 i = 99  # Ao finalizar a consulta, o sistema retornara o usuário para o primeiro menu
 
@@ -137,29 +161,29 @@ QUAL INFORMAÇÃO DESEJA ALTERAR?"""))
             # Função ao executar a opção 2 do menu principal
             print("\nSELECIONE UM DOCUMENTO DA LISTA SUSPENSA")
             i = int(input("""1 - DOCUMENTO 1
-    2 - DOCUMENTO 2
-    3 - DOCUMENTO 3
-    4 - DOCUMENTO 4
-    99 - VOLTAR AO MENU INICIAL
-    0 - SAIR
+2 - DOCUMENTO 2
+3 - DOCUMENTO 3
+4 - DOCUMENTO 4
+99 - VOLTAR AO MENU INICIAL
+0 - SAIR
 
-    DIGITE UMA OPÇÃO: """))
+DIGITE UMA OPÇÃO: """))
 
             if 1 <= i <= 4:
                 # Função para seleção do ponto que será apresentado na tela para leitura
                 i = int(input(f"""\nOs principais pontos do documento {i} são:
-    1 - Ponto principal 1
-    2 - Ponto principal 2
-    3 - Ponto principal 3
-    4 - Ponto principal 4
-    5 - Ponto principal 5 
+1 - Ponto principal 1
+2 - Ponto principal 2
+3 - Ponto principal 3
+4 - Ponto principal 4
+5 - Ponto principal 5 
 
-    Para leitura completa do tópico selecione um item, ou: 
+Para leitura completa do tópico selecione um item, ou: 
 
-    99 - VOLTAR AO MENU INICIAL
-    0 - SAIR
+99 - VOLTAR AO MENU INICIAL
+0 - SAIR
 
-    DIGITE UMA OPÇÃO: """))
+DIGITE UMA OPÇÃO: """))
 
                 if 1 <= i <= 5:
                     # Apresentação completa do ponto escolhido pelo usuário
@@ -171,27 +195,27 @@ QUAL INFORMAÇÃO DESEJA ALTERAR?"""))
         elif i == 3:
             # Função ao executar a opção 3 do menu principal
             i = int(input("""\nSELECIONE O TÓPICO ABAIXO EM QUE DESEJA MAIS INFORMAÇÕES:
-    1 - IPO
-    2 - CVM
-    3 - TUTORIAL
-    4 - NOTICIAS
-    99 - VOLTAR AO MENU INICIAL
-    0 - SAIR
+1 - IPO
+2 - CVM
+3 - TUTORIAL
+4 - NOTICIAS
+99 - VOLTAR AO MENU INICIAL
+0 - SAIR
 
-    DIGITE UMA OPÇÃO: """))
+DIGITE UMA OPÇÃO: """))
 
             if 1 <= i <= 4:
                 # Função para seleção da informação do tópico que será apresentado na tela para leitura
                 i = int(input(f"""\nSELECIONE UMA INFORMAÇÃO PARA LER SOBRE O TÓPICO {i}
-    1 - INFORMAÇÃO 1
-    2 - INFORMAÇÃO 2
-    3 - INFORMAÇÃO 3
-    4 - INFORMAÇÃO 4
-    5 - INFORMAÇÃO 5
-    99 - VOLTAR AO MENU INICIAL
-    0 - SAIR
+1 - INFORMAÇÃO 1
+2 - INFORMAÇÃO 2
+3 - INFORMAÇÃO 3
+4 - INFORMAÇÃO 4
+5 - INFORMAÇÃO 5
+99 - VOLTAR AO MENU INICIAL
+0 - SAIR
 
-    DIGITE UMA OPÇÃO: """))
+DIGITE UMA OPÇÃO: """))
 
                 if 1 <= i <= 5:
                     # Apresentação da informação escolhida do tópico selecionado
