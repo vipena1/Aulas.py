@@ -17,7 +17,7 @@ PARA NAVEGAR ENTRE OS MENUS, DIGITE O NÚMERO DESEJADO:
 2 - DOCUMENTAÇÃO
 3 - INFORMAÇÕES
 0 - SAIR
-    
+
 QUAL OPÇÃO DESEJA SELECIONAR? """))
 
     if i == 1:
@@ -46,7 +46,6 @@ Iremos te retornar para o menu inicial em alguns segundos...""")
 4 - DOCUMENTO 4
 99 - VOLTAR AO MENU INICIAL
 0 - SAIR
-
 DIGITE UMA OPÇÃO: """))
 
         if 1 <= i <= 4:
@@ -57,12 +56,9 @@ DIGITE UMA OPÇÃO: """))
 3 - Ponto principal 3
 4 - Ponto principal 4
 5 - Ponto principal 5 
-
 Para leitura completa do tópico selecione um item, ou: 
-
 99 - VOLTAR AO MENU INICIAL
 0 - SAIR
-
 DIGITE UMA OPÇÃO: """))
 
             if 1 <= i <= 5:
@@ -81,7 +77,6 @@ DIGITE UMA OPÇÃO: """))
 4 - NOTICIAS
 99 - VOLTAR AO MENU INICIAL
 0 - SAIR
-
 DIGITE UMA OPÇÃO: """))
 
         if 1 <= i <= 4:
@@ -94,7 +89,6 @@ DIGITE UMA OPÇÃO: """))
 5 - INFORMAÇÃO 5
 99 - VOLTAR AO MENU INICIAL
 0 - SAIR
-
 DIGITE UMA OPÇÃO: """))
 
             if 1 <= i <= 5:

@@ -1,0 +1,10 @@
+a = float(input("Me diga o numero A : "))
+b = float(input("Me diga o número B : "))
+c = float(input("Me diga o número C : ")
+
+delta = b**@ - 4*a*c
+
+if (delta< 0):
+    print("Não há raizes reais")
+elif (delta == 0) :
+    (-b)/(2*a)
