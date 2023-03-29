@@ -8,7 +8,9 @@ Além disso, todas as informações solicitadas nessas telas, devem ser coerente
 
 from time import sleep
 
-listaUsuario = [['João', 'Silva', 18], ["Maria", "Souza", 25], ["José", "Fernandes", 30]]
+listaUsuario = [['João', "Souza", "joao23@gmail.com", "jsouza", "Qualquercoisa1!", 18, 11933334444, "09424345"],
+                ["Maria", "Silva", "mariazinha@hotmail.com", "marizinha", "Qualquercoisa2@", 25, 11911112222, "08823468"],
+                ["José", "Fernandes", "josefernandes1@gmail.com", "josefer", "Qualquercoisa3#", 30, 11955556666, "23794375"]]
 
 i = 99
 user = input("Digite o usuário: ")
@@ -46,9 +48,14 @@ QUAL OPÇÃO DESEJA SELECIONAR? """))
                     # QUAL USUÁRIO DESEJA SELECIONAR? """))
 
                     print(f"""\nUSUÁRIO {i} SELECIONADO.
-NOME: {listaUsuario[i - 1][0]}.
+NOME: {listaUsuario[i - 1][0]}
 SOBRE NOME: {listaUsuario[i - 1][1]}
-IDADE: {listaUsuario[i - 1][2]}""")
+E-MAIL: {listaUsuario[i - 1][2]}
+USERNAME: {listaUsuario[i - 1][3]}
+SENHA: {listaUsuario[i - 1][4]}
+IDADE: {listaUsuario[i - 1][5]}
+CELULAR: {listaUsuario[i - 1][6]}
+CEP: {listaUsuario[i - 1][7]}""")
                     sleep(3)
 
                 elif i == 2:  # Alteração de dados do usuário
@@ -60,12 +67,17 @@ IDADE: {listaUsuario[i - 1][2]}""")
                     i2 = int(input("""\nABAIXO ESTÁ A LISTA DE INFORMAÇÕES DOS USUÁRIOS:
 1 - NOME
 2 - SOBRE NOME
-3 - IDADE
+3 - E-MAIL
+4 - USERNAME
+5 - SENHA
+6 - IDADE
+7 - CELULAR
+8 - CEP
 QUAL INFORMAÇÃO DESEJA ALTERAR?"""))
 
                     listaUsuario[i - 1][i2 - 1] = input("QUAL INFORMAÇÃO DESEJA PREENCHER? ")
-                    sleep(2)
                     print("Alterado com sucesso!")
+                    sleep(2)
 
                 elif i == 3:  # Excluir usuário
 
@@ -77,7 +89,7 @@ QUAL INFORMAÇÃO DESEJA ALTERAR?"""))
                     print("Usuário removido do sistema.")
                     sleep(2)
 
-            elif i ==2:  # Menu de ações para realizar com os dados das empresas.
+            elif i == 2:  # Menu de ações para realizar com os dados das empresas.
                 print("Opção 2 ok")
 
             elif i == 0:  # Saida
