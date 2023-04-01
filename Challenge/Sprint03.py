@@ -12,41 +12,37 @@ listaUsuario = [['João', "Souza", "joao23@gmail.com", "jsouza", "Qualquercoisa1
                 ["Maria", "Silva", "mariazinha@hotmail.com", "marizinha", "Qualquercoisa2@", 25, 11911112222, "08823468"],
                 ["José", "Fernandes", "josefernandes1@gmail.com", "josefer", "Qualquercoisa3#", 30, 11955556666, "23794375"]]
 
+listaEmpresa = [["Nubank", "Financeiro", 2013],
+                ["Magazine Luiza", "Varejo", 1957],
+                ["Vale", "Mineradora", 1942]]
+
 i = 99
-user = input("Digite o usuário: ")
-password = input("Digite a senha: ")
+user = input("DIGITE O USUÁRIO: ")
+password = input("DIGITE A SENHA: ")
 
 while i != 0:
-    # Menu utilizado para login de administrador
+    # O menu seguinte só será acessado com a senha de administrador
     if user == "ADM" and password == "ADMIN123":
         try:
             i = int(input("""\nMenu de administrador.
-1 - Alterar dados de usuário.
-2 - Alterar dados de empresas.
+1 - ALTERAR DADOS DE USUÁRIO.
+2 - ALTERAR DADOS DE EMPRESAS.
 0 - SAIR
-Digite a opção desejada: """))
+DIGITE A OPÇÃO DESEJADA: """))
 
             if i == 1:  # Menu de ações para realizar com os dados de usuários.
-                i = int(input("""\nQual ação deseja executar no usuario?
+                i = int(input("""\nQUAL AÇÃO DESEJA EXECUTAR NO USUÁRIO?
 1 - VISUALIZAR.
 2 - ALTERAR.
 3 - EXCLUIR.
-
 QUAL OPÇÃO DESEJA SELECIONAR? """))
 
-                if i == 1:  # Apenas para vizualização dos usuários cadastrados.
-                    print("LISTA DE USUÁRIOS: ")
+                if i == 1:  # Apenas para visualização dos usuários cadastrados.
+                    print("\nLISTA DE USUÁRIOS: ")
                     for x in range(0, len(listaUsuario)):
                         print(f"{x + 1} - {listaUsuario[x][0]}")
 
                     i = int(input("QUAL USUÁRIO DESEJA VISUALIZAR? "))
-
-                    # i = int(input(f"""\nLISTA DE USUÁRIOS:
-                    # 1 - {listaUsuario[0][0]}
-                    # 2 - {listaUsuario[1][0]}
-                    # 3 - {listaUsuario[2][0]}
-                    # QUAL USUÁRIO DESEJA SELECIONAR? """))
-
                     print(f"""\nUSUÁRIO {i} SELECIONADO.
 NOME: {listaUsuario[i - 1][0]}
 SOBRE NOME: {listaUsuario[i - 1][1]}
@@ -59,9 +55,9 @@ CEP: {listaUsuario[i - 1][7]}""")
                     sleep(3)
 
                 elif i == 2:  # Alteração de dados do usuário
-
+                    print("\nLISTA DE USUÁRIOS:")
                     for x in range(0, len(listaUsuario)):
-                        print(f"{x + 1} - {listaUsuario[x][0]}")
+                        print(f"""{x + 1} - {listaUsuario[x][0]}""")
                     i = int(input("QUAL USUÁRIO DESEJA ALTERAR? "))
 
                     i2 = int(input("""\nABAIXO ESTÁ A LISTA DE INFORMAÇÕES DOS USUÁRIOS:
@@ -76,68 +72,77 @@ CEP: {listaUsuario[i - 1][7]}""")
 QUAL INFORMAÇÃO DESEJA ALTERAR?"""))
 
                     listaUsuario[i - 1][i2 - 1] = input("QUAL INFORMAÇÃO DESEJA PREENCHER? ")
-                    print("Alterado com sucesso!")
+                    print("\nAlterado com sucesso!")
                     sleep(2)
 
                 elif i == 3:  # Excluir usuário
 
                     for x in range(0, len(listaUsuario)):
+                        print("\nLISTA DE USUÁRIOS:")
                         print(f"{x + 1} - {listaUsuario[x][0]}")
                     i = int(input("QUAL USUÁRIO DESEJA EXCLUIR? "))
 
                     del listaUsuario[i - 1]
-                    print("Usuário removido do sistema.")
+                    print("\nUSUÁRIO REMOVIDO DO SISTEMA.")
                     sleep(2)
 
             elif i == 2:  # Menu de ações para realizar com os dados das empresas.
-                print("Opção 2 ok")
+                i = int(input("""\nQUAL AÇÃO DESEJA EXECUTAR NA EMPRESA?
+1 - VISUALIZAR.
+2 - ALTERAR.
+3 - EXCLUIR.
+QUAL OPÇÃO DESEJA SELECIONAR? """))
+
+                if i == 1:  # Apenas para visualização das empresas cadastrados.
+                    print("\nLISTA DE EMPRESAS: ")
+                    for x in range(0, len(listaEmpresa)):
+                        print(f"{x + 1} - {listaEmpresa[x][0]}")
+                    i = int(input("QUAL EMPRESA DESEJA VISUALIZAR? "))
+
+                    print(f"""\nEMPRESA {i} SELECIONADA.
+NOME: {listaEmpresa[i - 1][0]}
+SETOR: {listaEmpresa[i - 1][1]}
+ANO DE ABERTURA: {listaEmpresa[i - 1][2]}""")
+                    sleep(3)
+
+                elif i == 2:  # Alteração de dados da empresa
+                    print("\nLISTA DE EMPRESAS: ")
+                    for x in range(0, len(listaEmpresa)):
+                        print(f"""{x + 1} - {listaEmpresa[x][0]}""")
+                    i = int(input("QUAL EMPRESA DESEJA ALTERAR? "))
+
+                    i2 = int(input("""\nABAIXO ESTÁ A LISTA DE INFORMAÇÕES DAS EMPRESAS:
+1 - NOME
+2 - SETOR
+3 - ANO DE ABERTURA
+QUAL INFORMAÇÃO DESEJA ALTERAR?"""))
+
+                    listaEmpresa[i - 1][i2 - 1] = input("\nQUAL INFORMAÇÃO DESEJA PREENCHER? ")
+                    print("\nALTERADO COM SUCESSO!")
+                    sleep(2)
+
+                elif i == 3:  # Excluir empresa
+                    print("\nLISTA DE EMPRESAS:")
+                    for x in range(0, len(listaEmpresa)):
+                        print(f"{x + 1} - {listaEmpresa[x][0]}")
+                    i = int(input("QUAL EMPRESA DESEJA EXCLUIR? "))
+
+                    del listaEmpresa[i - 1]
+                    print("\nEMPRESA REMOVIDA DO SISTEMA.")
+                    sleep(2)
 
             elif i == 0:  # Saida
-                print("\nVolte sempre!")
+                print("\nVOLTE SEMPRE!")
 
             else:
-                print("\nDigite uma opção valida!")
+                print("\nDIGITE UMA OPÇÃO VALIDA!")
 
         except ValueError:
-            print("\nInsira uma opção valida.")
+            print("\nINSIRA APENAS UM VALOR NUMERICO.")
 
         finally:
             sleep(1)
-            print("\nOperação finalizada")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            print("\nOPERAÇÃO FINALIZADA")
 
     else:
 
@@ -149,7 +154,6 @@ PARA NAVEGAR ENTRE OS MENUS, DIGITE O NÚMERO DESEJADO:
 2 - DOCUMENTAÇÃO
 3 - INFORMAÇÕES
 0 - SAIR
-
 QUAL OPÇÃO DESEJA SELECIONAR? """))
 
         if i == 1:
@@ -164,8 +168,8 @@ QUAL OPÇÃO DESEJA SELECIONAR? """))
                 # Caso o usuário continue, o sistema irá realizar uma consulta no banco de dados através dos dados informados acima
                 print("REALIZANDO SIMULAÇÃO...")  # Simulando a consulta ao banco de dados
                 sleep(2)
-                print(f"""A simulação com a empresa {nomeEmpresa} foi concluída!
-Iremos te retornar para o menu inicial em alguns segundos...""")
+                print(f"""A SIMULAÇÃO COM A EMPRESA {nomeEmpresa} FOI CONCLUÍDA!
+IREMOS TE RETORNAR PARA O MENU INICIAL EM ALGUNS SEGUNDOS...""")
                 sleep(5)
                 i = 99  # Ao finalizar a consulta, o sistema retornara o usuário para o primeiro menu
 
@@ -178,29 +182,26 @@ Iremos te retornar para o menu inicial em alguns segundos...""")
 4 - DOCUMENTO 4
 99 - VOLTAR AO MENU INICIAL
 0 - SAIR
-
 DIGITE UMA OPÇÃO: """))
 
             if 1 <= i <= 4:
                 # Função para seleção do ponto que será apresentado na tela para leitura
                 i = int(input(f"""\nOs principais pontos do documento {i} são:
-1 - Ponto principal 1
-2 - Ponto principal 2
-3 - Ponto principal 3
-4 - Ponto principal 4
-5 - Ponto principal 5 
-
-Para leitura completa do tópico selecione um item, ou: 
+1 - PONTO PRINCIPAL 1
+2 - PONTO PRINCIPAL 2
+3 - PONTO PRINCIPAL 3
+4 - PONTO PRINCIPAL 4
+5 - PONTO PTINCIPAL 5 
+PARA LEITURA COMPLETA DO TÓPICO SELECIONE UM ITEM, OU: 
 
 99 - VOLTAR AO MENU INICIAL
 0 - SAIR
-
 DIGITE UMA OPÇÃO: """))
 
                 if 1 <= i <= 5:
                     # Apresentação completa do ponto escolhido pelo usuário
                     print(f"DESCRIÇÃO COMPLETA DO TOPICO {i}")
-                    print("Ação 2 finalizada, em alguns segundos iremos te retornar para o menu principal...")
+                    print("AÇÃO 2 FINALIZADA, EM ALGUNS SEGUNDOS IREMOS TE RETORNAR PARA O MENI PRINCIPAL...")
                     sleep(7)
                     i = 99
 
@@ -213,7 +214,6 @@ DIGITE UMA OPÇÃO: """))
 4 - NOTICIAS
 99 - VOLTAR AO MENU INICIAL
 0 - SAIR
-
 DIGITE UMA OPÇÃO: """))
 
             if 1 <= i <= 4:
@@ -226,22 +226,21 @@ DIGITE UMA OPÇÃO: """))
 5 - INFORMAÇÃO 5
 99 - VOLTAR AO MENU INICIAL
 0 - SAIR
-
 DIGITE UMA OPÇÃO: """))
 
                 if 1 <= i <= 5:
                     # Apresentação da informação escolhida do tópico selecionado
-                    print(f"\nTexto sobre a informação {i}...")
-                    print("Ação 3 finalizada, em alguns segundos iremos te retornar para o menu principal...")
+                    print(f"\nTEXTO SOBRE A INFORMAÇÃO {i}...")
+                    print("AÇÃO 3 FINALIZADA, EM ALGUNS SEGUNDOS IREMOS TE RETORNAR PARA O MENU PRINCIPAL...")
                     sleep(7)
                     i = 99
 
         elif i == 0:
             # Finalização da utilização do sistema
-            print("Volte sempre!")
+            print("VOLTE SEMPRE!")
 
         else:
             # Tratativa de erro caso o usuário selecionar uma opção não existente
-            print("Digite uma opção válida! ")
+            print("DIGITE UMA OPÇÃO VÁLIDA! ")
             sleep(1)
             i = 99
