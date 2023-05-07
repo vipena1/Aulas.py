@@ -56,6 +56,7 @@ CELULAR: {listaUsuario[i - 1][6]}
 CEP: {listaUsuario[i - 1][7]}""")
                     sleep(3)
 
+
                 elif i == 2:  # Alteração de dados do usuário
                     print("\nLISTA DE USUÁRIOS:")
                     for x in range(0, len(listaUsuario)):
