@@ -37,6 +37,8 @@ DIGITE A OPÇÃO DESEJADA: """))
 3 - EXCLUIR.
 QUAL OPÇÃO DESEJA SELECIONAR? """))
 
+
+
                 if i == 1:  # Apenas para visualização dos usuários cadastrados.
                     print("\nLISTA DE USUÁRIOS: ")
                     for x in range(0, len(listaUsuario)):
