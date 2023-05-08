@@ -43,11 +43,16 @@ DIGITE A OPÇÃO DESEJADA: """))
         except ValueError:
             print("Digite apenas o número da opção desejada.")
 
+
+
+
+
+
+    # Se o usuário não for administrador
     else:
 
         try:
-            # Menu de usuário comum sem ser administrador
-            opc = int(input("""\nBEM-VINDO!
+            opt = int(input("""\nBEM-VINDO!
 PARA NAVEGAR ENTRE OS MENUS, DIGITE O NÚMERO DESEJADO:
 1 - SIMULADOR
 2 - DOCUMENTAÇÃO
