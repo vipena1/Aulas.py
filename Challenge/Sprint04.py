@@ -8,6 +8,9 @@
 
 import oracledb as orcl
 import pandas as pd
+from faker import Faker
+
+fake = Faker('pt_BR')
 
 try:
     # Abrindo conexão com o banco
@@ -72,9 +75,8 @@ QUAL OPÇÃO DESEJA SELECIONAR? """))
 
                     dataList = sorted(dataList)
 
-                    dataDf = pd.DataFrame.from_records(dataList,
-                                                         columns=['NOME', 'CPF', 'EMAIL', 'NASCIMENTO', 'CEP',
-                                                                  'ENDEREÇO', 'NÚMERO', 'COMPLEMENTO', 'BAIRRO', 'UF'], index='CPF')
+                    dataDf = pd.DataFrame.from_records(dataList, columns=['NOME', 'CPF', 'EMAIL', 'NASCIMENTO', 'CEP',
+                                                                          'ENDEREÇO', 'NÚMERO', 'COMPLEMENTO', 'BAIRRO', 'UF'], index='CPF')
                     if (dataDf.empty):
                         print("Não há registros")
                     else:
@@ -85,17 +87,17 @@ QUAL OPÇÃO DESEJA SELECIONAR? """))
                     print(e)
 
             elif opt == 2:
-                # INSERIR ATRIBUTOS NOS USUÁRIOS
+                # CADASTRANDO ATRIBUTOS NOS USUÁRIOS
                 try:
-                    nome = input("Nome: ")
-                    cpf = int(input("CPF: "))
-                    email = input("EMAIL: ")
+                    nome = fake.name()  # input("Nome:  ")
+                    cpf = fake.cpf()  # int(input("CPF: "))
+                    email = fake.email()  # input("EMAIL: ")
                     nascimento = input("NASCIMENTO: ")
-                    cep = input("CEP: ")
-                    endereco = input("ENDEREÇO: ")
-                    numero = int(input("NÚMERO: "))
-                    complemento = input("COMPLEMENTO: ")
-                    bairro = input("BAIRRO: ")
+                    cep = fake.random_int(10000000, 99999999)  # input("CEP: ")
+                    endereco = fake.text(30)  # input("ENDEREÇO: ")
+                    numero = fake.random_int(1, 99999)  # int(input("NÚMERO: "))
+                    complemento = fake.text(20)  # input("COMPLEMENTO: ")
+                    bairro = fake.text(20)  # input("BAIRRO: ")
                     uf = input("UF: ")
 
                     cadastro = f"""INSERT INTO USUARIOB3 (NOME, CPF, EMAIL, NASCIMENTO, CEP, ENDERECO, NUMERO, COMPLEMENTO, BAIRRO, UF) VALUES ('{nome}', '{cpf}', '{email}', '{nascimento}', '{cep}', '{endereco}', {numero}, '{complemento}', '{bairro}', '{uf}') """
@@ -110,6 +112,214 @@ QUAL OPÇÃO DESEJA SELECIONAR? """))
 
                 else:
                     print("Dados cadastrados!")
+
+            elif opt == 3:
+                # ALTERAR DADOS DO USUÁRIO
+                dataList = []
+
+                cpf = input("Digite o CPF do usuário que você deseja alterar: ")
+
+                consult = f"""SELECT * FROM USUARIOB3 WHERE CPF = '{cpf}'"""
+
+                inst_consult.execute(consult)
+                data = inst_consult.fetchall()
+
+                for oneData in data:
+                    dataList.append(oneData)
+
+                if len(dataList) == 0:
+                    print("O CPF não existe.")
+
+                else:
+                    try:
+                        opt = int(input("""\n
+1 - NOME
+2 - CPF
+3 - EMAIL
+4 - DATA DE NASCIMENTO
+5 - CEP
+6 - ENDERECO
+7 - NUMERO
+8 - COMPLEMENTO
+9 - BAIRRO
+10 - UF
+Qual dado você deseja alterar? """))
+
+                    except ValueError:
+                        print("Digite valores numéricos! ")
+
+                    # ALTERAR O NOME DO USUARIO
+                    if opt == 1:
+                        try:
+                            newName = input("\nNovo nome: ")
+
+                            alter = f"""update usuariob3 set NOME = '{newName}' where cpf = '{cpf}'"""
+
+                            inst_update.execute(alter)
+                            conn.commit()
+
+                        except:
+                            print("ERRO banco de dados")
+
+                        else:
+                            print("Atualização realizada!")
+
+                    # ALTERAR O CPF DO USUARIO
+                    elif opt == 2:
+                        try:
+                            newCpf = input("\nNovo CPF: ")
+
+                            alter = f"""update usuariob3 set CPF = '{newCpf}' where cpf = '{cpf}'"""
+
+                            inst_update.execute(alter)
+                            conn.commit()
+
+                        except:
+                            print("ERRO banco de dados")
+
+                        else:
+                            print("Atualização realizada!")
+
+                    # ALTERAR O EMAIL DO USUARIO
+                    elif opt == 3:
+                        try:
+                            newEmail = input("\nNovo Email: ")
+
+                            alter = f"""update usuariob3 set EMAIL = '{newEmail}' where cpf = '{cpf}'"""
+
+                            inst_update.execute(alter)
+                            conn.commit()
+
+                        except:
+                            print("ERRO banco de dados")
+
+                        else:
+                            print("Atualização realizada!")
+
+                    # ALTERAR O NASCIMENTO DO USUARIO
+                    elif opt == 4:
+                        try:
+                            newNascimento = input("\nNova data de nascimento: ")
+
+                            alter = f"""update usuariob3 set NASCIMENTO = '{newNascimento}' where cpf = '{cpf}'"""
+
+                            inst_update.execute(alter)
+                            conn.commit()
+
+                        except:
+                            print("ERRO banco de dados")
+
+                        else:
+                            print("Atualização realizada!")
+
+                    # ALTERAR O CEP DO USUARIO
+                    elif opt == 5:
+                        try:
+                            newCep = input("\nNovo CEP: ")
+
+                            alter = f"""update usuariob3 set CEP = '{newCep}' where cpf = '{cpf}'"""
+
+                            inst_update.execute(alter)
+                            conn.commit()
+
+                        except:
+                            print("ERRO banco de dados")
+
+                        else:
+                            print("Atualização realizada!")
+
+                    # ALTERAR O ENDEREÇO DO USUARIO
+                    elif opt == 6:
+                        try:
+                            newEndereco = input("\nNovo endereço: ")
+
+                            alter = f"""update usuariob3 set ENDERECO = '{newEndereco}' where cpf = '{cpf}'"""
+
+                            inst_update.execute(alter)
+                            conn.commit()
+
+                        except:
+                            print("ERRO banco de dados")
+
+                        else:
+                            print("Atualização realizada!")
+
+                    # ALTERAR O NUMERO DO USUARIO
+                    elif opt == 7:
+                        try:
+                            newNumero = int(input("\nNovo número: "))
+
+                            alter = f"""update usuariob3 set NUMERO = {newNumero} where cpf = '{cpf}'"""
+
+                            inst_update.execute(alter)
+                            conn.commit()
+
+                        except ValueError:
+                            print("Digite um valor numerico")
+
+                        except:
+                            print("ERRO banco de dados")
+
+                        else:
+                            print("Atualização realizada!")
+
+                    # ALTERAR O COMPLEMENTO DO USUARIO
+                    elif opt == 8:
+                        try:
+                            newComplemento = input("\nNovo complemento: ")
+
+                            alter = f"""update usuariob3 set COMPLEMENTO = '{newComplemento}' where cpf = '{cpf}'"""
+
+                            inst_update.execute(alter)
+                            conn.commit()
+
+                        except:
+                            print("ERRO banco de dados")
+
+                        else:
+                            print("Atualização realizada!")
+
+                    # ALTERAR O BAIRRO DO USUARIO
+                    elif opt == 9:
+                        try:
+                            newBairro = input("\nNovo bairro: ")
+
+                            alter = f"""update usuariob3 set BAIRRO = '{newBairro}' where cpf = '{cpf}'"""
+
+                            inst_update.execute(alter)
+                            conn.commit()
+
+                        except:
+                            print("ERRO banco de dados")
+
+                        else:
+                            print("Atualização realizada!")
+
+                    # ALTERAR A UF DO USUARIO
+                    elif opt == 10:
+                        try:
+                            newUf = input("\nNova UF: ")
+
+                            alter = f"""update usuariob3 set UF = '{newUf}' where cpf = '{cpf}'"""
+
+                            inst_update.execute(alter)
+                            conn.commit()
+
+                        except:
+                            print("ERRO banco de dados")
+
+                        else:
+                            print("Atualização realizada!")
+
+                    else:
+                        print("Digite um  valor valido")
+
+
+
+
+
+
+
 
 
 
