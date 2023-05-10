@@ -352,8 +352,8 @@ Qual dado você deseja alterar? """))
                 else:
                     print("Digite uma opção valida")
 
+            # USANDO A ENTIDADE DE EMPRESA
             elif opt == 2:
-                # USANDO A ENTIDADE DE EMPRESA
                 try:
                     opt = int(input("""\nQUAL AÇÃO DESEJA EXECUTAR NA EMPRESA?
 1 - VISUALIZAR.
