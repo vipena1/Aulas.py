@@ -358,7 +358,28 @@ QUAL OPÇÃO DESEJA SELECIONAR? """))
                         print(e)
 
                 # CADASTRANDO ATRIBUTOS NOS CAGOS
-                #elif opt == 2:
+                elif opt == 2:
+                    try:
+                        cargo_id = int(input("ID:  "))
+                        cargo_descricao = input("Descrição: ").upper()
+                        cargo_departamento = input("Departamento: ").upper()
+
+
+                        register = f"""INSERT INTO CARGOS VALUES ({cargo_id}, '{cargo_descricao}', '{cargo_departamento}')"""
+
+                        inst_register.execute(register)
+                        conn.commit()
+                    except ValueError:
+                        print("\nDigite valores numéricos! ")
+                        sleep(2)
+
+                    except:
+                        print("\nErro BD")
+                        sleep(2)
+
+                    else:
+                        print("\nDados cadastrados!")
+                        sleep(2)
 
                 # ALTERAR DADOS DOS CARGOS
                 #elif opt == 3:
