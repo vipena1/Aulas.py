@@ -110,7 +110,7 @@ while (conexao==True):
     elif (opc==5):
         lista_dados = []
 
-        id = int(input("Digite o ID que deseja excluir: "))
+        id = int(input("Digite o ID que deseja alterar: "))
 
         consulta = f"""SELECT * FROM clientes WHERE id = {id} """
 
@@ -133,9 +133,11 @@ while (conexao==True):
                 novo_idade = int(input("Novo Idade: "))
                 novo_limite = float(input("Novo Limite de Crédito: "))
 
-                alteracao = f"""UPDATE clientes SET ID = {novo_id}, cliente_nome = {novo_nome}, cliente_logradouro = {novo_logr}, cliente_bairro = {novo_bairro}, cliente_cidade = {novo_cidade},cliente_idade = {novo_idade}, cliente_limitecredito = {novo_limite} WHERE ID = {id}"""
+                alteracao = f"""UPDATE clientes SET ID = {novo_id}, cliente_nome = {novo_nome}, cliente_logradouro = {novo_logr},
+                 cliente_bairro = {novo_bairro}, cliente_cidade = {novo_cidade},cliente_idade = {novo_idade},
+                  cliente_limitecredito = {novo_limite} WHERE ID = {id}"""
 
-                inst_alteracao.execute((alteracao))
+                inst_alteracao.execute(alteracao)
                 conn.commit()
             except ValueError:
                 print("Digite valores numericos")
