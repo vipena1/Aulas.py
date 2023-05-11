@@ -49,8 +49,8 @@ DIGITE A OPÇÃO DESEJADA: """))
             print("Digite apenas o número da opção desejada.")
 
         else:
+            # USANDO A ENTIDADE DE USUÁRIO
             if opt == 1:
-                # USANDO A ENTIDADE DE USUÁRIO
                 try:
                     opt = int(input("""\nQUAL AÇÃO DESEJA EXECUTAR NO USUÁRIO?
 1 - VISUALIZAR.
