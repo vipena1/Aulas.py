@@ -11,6 +11,7 @@ try:
     inst_register = conn.cursor()
     inst_update = conn.cursor()
     inst_delete = conn.cursor()
+    inst_report = conn.cursor()
 
 except Exception as e:
     # Se der erro retornara o motivo
@@ -382,23 +383,157 @@ QUAL OPÇÃO DESEJA SELECIONAR? """))
                         sleep(2)
 
                 # ALTERAR DADOS DOS CARGOS
-                #elif opt == 3:
+                elif opt == 3:
+                    dataList = []
+
+                    cargo_id = int(input("Digite o ID do cargo que você deseja alterar: "))
+
+                    consult = f"""SELECT * FROM CARGOS WHERE CARGO_ID = {cargo_id}"""
+
+                    inst_consult.execute(consult)
+                    data = inst_consult.fetchall()
+
+                    for oneData in data:
+                        dataList.append(oneData)
+
+                    if len(dataList) == 0:
+                        print("O ID não existe.")
+                        sleep(2)
+
+                    else:
+                        try:
+                            opt = int(input("""
+1 - ID
+2 - DESCRIÇÃO
+3 - DEPARTAMENTO
+Qual dado você deseja alterar? """))
+
+                        except ValueError:
+                            print("\nDigite valores numéricos! ")
+                            sleep(2)
+
+                        else:
+                            # ALTERAR O ID DO CARGO
+                            if opt == 1:
+                                try:
+                                    newCargoId = int(input("\nNovo ID: "))
+
+                                    alter = f"""update CARGOS set CARGO_ID = {newCargoId} where CARGO_ID = {cargo_id}"""
+
+                                    inst_update.execute(alter)
+                                    conn.commit()
+
+                                except ValueError:
+                                    print("\nDigite valores numéricos")
+                                    sleep(2)
+
+                                except:
+                                    print("Erro banco de dados")
+                                    sleep(2)
+
+                                else:
+                                    print("Atualização realizada com sucesso!")
+                                    sleep(2)
+
+                            elif opt == 2:
+                                try:
+                                    newDescricao = input("\nNova descrição do cargo: ").upper()
+
+                                    alter = f"""update CARGOS set CARGO_DESCRICAO = '{newDescricao}' where CARGO_ID = {cargo_id}"""
+
+                                    inst_update.execute(alter)
+                                    conn.commit()
+
+                                except:
+                                    print("Erro banco de dados")
+                                    sleep(2)
+
+                                else:
+                                    print("Atualização realizada com sucesso!")
+                                    sleep(2)
+
+                            elif opt == 3:
+                                try:
+                                    newDepartamento = input("\nNova departamento do cargo: ").upper()
+
+                                    alter = f"""update CARGOS set CARGO_DEPARTAMENTO = '{newDepartamento}' where CARGO_ID = {cargo_id}"""
+
+                                    inst_update.execute(alter)
+                                    conn.commit()
+
+                                except:
+                                    print("Erro banco de dados")
+                                    sleep(2)
+
+                                else:
+                                    print("Atualização realizada com sucesso!")
+                                    sleep(2)
 
                 # EXCLUIR DADOS DOS CARGOS
-                #elif opt == 4:
+                elif opt == 4:
+                    try:
+                        dataList = []
 
-                # SAIR
-                #elif opt == 0:
-                    #connection = False
-                    #sleep(2)
+                        cargo_id = int(input("\nDigite o ID do cargo que deseja excluir: "))
+
+                        consult = f"""SELECT * FROM CARGOS WHERE CARGO_ID = {cargo_id}"""
+
+                        inst_consult.execute(consult)
+                        data = inst_consult.fetchall()
+
+                        for oneData in data:
+                            dataList.append(data)
+
+                        if len(dataList) == 0:
+                            print("\nO ID digitado não existe")
+                            sleep(2)
+
+                        else:
+                            try:
+                                delete = f"""delete from CARGOS where CARGO_ID = {cargo_id}"""
+                                inst_delete.execute(delete)
+                                conn.commit()
+
+                            except:
+                                print("\nErro banco de  dados")
+                                sleep(2)
+
+                            else:
+                                print("\nDados excluidos")
+                                sleep(2)
+
+                    except Exception as e:
+                        print(e)
 
                 else:
                     print("Digite uma opção válida.")
 
-
-
         # RELATORIO
-        #elif opt == 3:
+        elif opt == 3:
+            dataList = []
+
+            cargo_id = int(input("Digite o ID do cargo que deseja visualizar os funcionarios: "))
+
+            report = f"""select FUNCIONARIO_ID, FUNCIONARIO_CPF, FUNCIONARIO_NOME, FUNCIONARIO_SALARIO, FUNCIONARIO_IDADE 
+from FUNCIONARIOS inner join CARGOS on funcionarios.CARGO_ID = cargos.CARGO_ID WHERE cargos.CARGO_ID = {cargo_id} order by 1"""
+
+            inst_report.execute(report)
+            data = inst_report.fetchall()
+
+            for oneData in data:
+                dataList.append(oneData)
+
+            dataList = sorted(dataList)
+
+            dataDf = pd.DataFrame.from_records(dataList, columns=['ID', 'CPF', 'NOME', 'SALARIO', 'IDADE'], index='ID')
+
+            if (dataDf.empty):
+                print("\nNão há registros")
+                sleep(2)
+            else:
+                print(dataDf)
+                sleep(2)
+            print("\n")
 
         # SAIR
         elif opt == 0:
