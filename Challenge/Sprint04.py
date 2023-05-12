@@ -591,7 +591,7 @@ Qual dado você deseja alterar? """))
                 sleep(2)
 
     # SE O USUARIO NÃO FOR ADM
-    else:
+    '''else:
         try:
             opt = int(input("""\nBEM-VINDO!
 PARA NAVEGAR ENTRE OS MENUS, DIGITE O NÚMERO DESEJADO:
@@ -623,4 +623,4 @@ QUAL OPÇÃO DESEJA SELECIONAR? """))
                 connection = False
 
             else:
-                print("Digite uma opção valida")
+                print("Digite uma opção valida")'''
