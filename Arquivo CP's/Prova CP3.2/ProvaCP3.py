@@ -277,7 +277,7 @@ Qual dado você deseja alterar? """))
                 elif opt == 4:
                     try:
                         dataList = []
-                        funcionario_id = int(input("\nDigiteo ID do funncionario que deseja deletar: "))
+                        funcionario_id = int(input("\nDigiteo ID do funcionario que deseja deletar: "))
 
                         consult = f"""SELECT * FROM FUNCIONARIOS WHERE funcionario_id = {funcionario_id}"""
 
@@ -495,7 +495,7 @@ Qual dado você deseja alterar? """))
                                 conn.commit()
 
                             except:
-                                print("\nErro banco de  dados")
+                                print("\nErro banco de dados, verifique se não há funcionarios cadastrado nesse cargo")
                                 sleep(2)
 
                             else:
