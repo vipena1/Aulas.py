@@ -591,9 +591,9 @@ Qual dado você deseja alterar? """))
                 sleep(2)
 
     # SE O USUARIO NÃO FOR ADM
-    '''else:
-        try:
-            opt = int(input("""\nBEM-VINDO!
+    else:
+            # Menu principal com as primeiras funções
+        opt = int(input("""\nBEM-VINDO!
 PARA NAVEGAR ENTRE OS MENUS, DIGITE O NÚMERO DESEJADO:
 1 - SIMULADOR
 2 - DOCUMENTAÇÃO
@@ -601,26 +601,91 @@ PARA NAVEGAR ENTRE OS MENUS, DIGITE O NÚMERO DESEJADO:
 0 - SAIR
 QUAL OPÇÃO DESEJA SELECIONAR? """))
 
-        except ValueError:
-            print("Digite apenas o número da opção desejada.")
+        if opt == 1:
+            # Função ao executar a opção 1 do menu principal
+            print("ESSE É O NOSSO SIMULADOR DE INVESTIMENTOS, PARA UTILIZA-LO, PREENCHA OS CAMPOS ABAIXO:")
+            nomeEmpresa = str(input("Digite o nome da empresa: "))
+            setorEmpresa = str(input("Digite o setor atuante da empresa: "))
+            anoAbertura = int(input("Digite o ano de abertura: "))
+            i = int(input("DIGITE 1 PARA CONTINUAR, 99 PARA VOLTAR AO INICIO OU 0 PARA SAIR: "))
+
+            if opt == 1:
+                # Caso o usuário continue, o sistema irá realizar uma consulta no banco de dados através dos dados informados acima
+                print("REALIZANDO SIMULAÇÃO...")  # Simulando a consulta ao banco de dados
+                sleep(2)
+                print(f"""A SIMULAÇÃO COM A EMPRESA {nomeEmpresa} FOI CONCLUÍDA!
+IREMOS TE RETORNAR PARA O MENU INICIAL EM ALGUNS SEGUNDOS...""")
+                sleep(5)
+                opt = 99  # Ao finalizar a consulta, o sistema retornara o usuário para o primeiro menu
+
+        elif opt == 2:
+            # Função ao executar a opção 2 do menu principal
+            print("\nSELECIONE UM DOCUMENTO DA LISTA SUSPENSA")
+            opt = int(input("""1 - DOCUMENTO 1
+2 - DOCUMENTO 2
+3 - DOCUMENTO 3
+4 - DOCUMENTO 4
+99 - VOLTAR AO MENU INICIAL
+0 - SAIR
+DIGITE UMA OPÇÃO: """))
+
+            if 1 <= opt <= 4:
+                # Função para seleção do ponto que será apresentado na tela para leitura
+                opt = int(input(f"""\nOs principais pontos do documento {opt} são:
+1 - PONTO PRINCIPAL 1
+2 - PONTO PRINCIPAL 2
+3 - PONTO PRINCIPAL 3
+4 - PONTO PRINCIPAL 4
+5 - PONTO PTINCIPAL 5 
+PARA LEITURA COMPLETA DO TÓPICO SELECIONE UM ITEM, OU: 
+
+99 - VOLTAR AO MENU INICIAL
+0 - SAIR
+DIGITE UMA OPÇÃO: """))
+
+                if 1 <= opt <= 5:
+                    # Apresentação completa do ponto escolhido pelo usuário
+                    print(f"DESCRIÇÃO COMPLETA DO TOPICO {opt}")
+                    print("AÇÃO 2 FINALIZADA, EM ALGUNS SEGUNDOS IREMOS TE RETORNAR PARA O MENI PRINCIPAL...")
+                    sleep(7)
+                    opt = 99
+
+        elif opt == 3:
+            # Função ao executar a opção 3 do menu principal
+            opt = int(input("""\nSELECIONE O TÓPICO ABAIXO EM QUE DESEJA MAIS INFORMAÇÕES:
+1 - IPO
+2 - CVM
+3 - TUTORIAL
+4 - NOTICIAS
+99 - VOLTAR AO MENU INICIAL
+0 - SAIR
+DIGITE UMA OPÇÃO: """))
+
+            if 1 <= opt <= 4:
+                # Função para seleção da informação do tópico que será apresentado na tela para leitura
+                opt = int(input(f"""\nSELECIONE UMA INFORMAÇÃO PARA LER SOBRE O TÓPICO {opt}
+1 - INFORMAÇÃO 1
+2 - INFORMAÇÃO 2
+3 - INFORMAÇÃO 3
+4 - INFORMAÇÃO 4
+5 - INFORMAÇÃO 5
+99 - VOLTAR AO MENU INICIAL
+0 - SAIR
+DIGITE UMA OPÇÃO: """))
+
+                if 1 <= opt <= 5:
+                    # Apresentação da informação escolhida do tópico selecionado
+                    print(f"\nTEXTO SOBRE A INFORMAÇÃO {opt}...")
+                    print("AÇÃO 3 FINALIZADA, EM ALGUNS SEGUNDOS IREMOS TE RETORNAR PARA O MENU PRINCIPAL...")
+                    sleep(7)
+                    opt = 99
+
+        elif opt == 0:
+            # Finalização da utilização do sistema
+            print("VOLTE SEMPRE!")
 
         else:
-            # SIMULADOR
-            if opt == 1:
-                print("01")
-
-            # DOCUMENTAÇÃO
-            elif opt == 2:
-                print("02")
-
-            # INFORMAÇÕES
-            elif opt == 3:
-                print("03")
-
-            # SAIR
-            elif opt == 0:
-                print("Volte sempre!")
-                connection = False
-
-            else:
-                print("Digite uma opção valida")'''
+            # Tratativa de erro caso o usuário selecionar uma opção não existente
+            print("DIGITE UMA OPÇÃO VÁLIDA! ")
+            sleep(1)
+            opt = 99
