@@ -8,15 +8,12 @@
 
 import oracledb as orcl
 import pandas as pd
-from faker import Faker
 from time import sleep
-
-fake = Faker('pt_BR')
 
 try:
     # Abrindo conexão com o banco
     dnStr = orcl.makedsn("oracle.fiap.com.br", "1521", "ORCL")
-    conn = orcl.connect(user = "RM96881", password = "250998", dsn = dnStr)
+    conn = orcl.connect(user="RM97032", password="fiap23", dsn=dnStr)
 
     inst_consult = conn.cursor()
     inst_register = conn.cursor()
@@ -70,7 +67,7 @@ QUAL OPÇÃO DESEJA SELECIONAR? """))
                     try:
                         dataList = []
 
-                        inst_consult.execute('SELECT * FROM USUARIOB3')
+                        inst_consult.execute('SELECT * FROM USUARIO')
 
                         data = inst_consult.fetchall()
 
@@ -79,8 +76,10 @@ QUAL OPÇÃO DESEJA SELECIONAR? """))
 
                         dataList = sorted(dataList)
 
-                        dataDf = pd.DataFrame.from_records(dataList, columns=['NOME', 'CPF', 'EMAIL', 'NASCIMENTO', 'CEP',
-                                                                              'ENDEREÇO', 'NÚMERO', 'COMPLEMENTO', 'BAIRRO', 'UF'], index='CPF')
+                        dataDf = pd.DataFrame.from_records(dataList,
+                                                           columns=['NOME', 'EMAIL', 'CEP', 'RUA', 'BAIRRO', 'UF',
+                                                                    'CPF', 'SENHA', 'DT NASCIMENTO', 'CELULAR'],
+                                                           index='CPF')
                         if (dataDf.empty):
                             print("Não há registros")
                             sleep(2)
@@ -96,18 +95,33 @@ QUAL OPÇÃO DESEJA SELECIONAR? """))
                 # CADASTRANDO ATRIBUTOS NOS USUÁRIOS
                 elif opt == 2:
                     try:
-                        nome = input("Nome:  ").upper()  #fake.name()
-                        cpf = input("CPF: ").upper()  #fake.cpf()
-                        email = input("EMAIL: ").upper()  #fake.email()
-                        nascimento = input("NASCIMENTO: ").upper()
-                        cep = input("CEP: ").upper()  #fake.random_int(10000000, 99999999)
-                        endereco = input("ENDEREÇO: ").upper()  #fake.text(30)
-                        numero = int(input("NÚMERO: "))  #fake.random_int(1, 99999)
-                        complemento = input("COMPLEMENTO: ").upper()  #fake.text(20)
-                        bairro = input("BAIRRO: ").upper()  #fake.text(20)
+                        nome = input("NOME:  ").upper()
+                        email = input("EMAIL: ").upper()
+                        cep = int(input("CEP: "))
+                        rua = input("RUA: ").upper()
+                        bairro = input("BAIRRO: ").upper()
                         uf = input("UF: ").upper()
+                        cpf = input("CPF: ")
+                        senha = input("SENHA: ")
 
-                        cadastro = f"""INSERT INTO USUARIOB3 (NOME, CPF, EMAIL, NASCIMENTO, CEP, ENDERECO, NUMERO, COMPLEMENTO, BAIRRO, UF) VALUES ('{nome}', '{cpf}', '{email}', '{nascimento}', '{cep}', '{endereco}', {numero}, '{complemento}', '{bairro}', '{uf}') """
+                        try:
+                            dtNacimento = input("DATA DE NASCIMENTO(DD/MM/AA): ")
+                            # Padronização de data para banco de dados
+                            listaData = dtNacimento.split("/")
+
+                            listaMes = ["jan", "feb", "mar",
+                                        "apr", "may", "jun",
+                                        "jul", "aug", "sep",
+                                        "oct", "nov", "dec"]
+
+                            textoMes = listaMes[int(listaData[1]) - 1]
+                            dtNacimento = f'{listaData[0]}-{textoMes}-{listaData[2]}'
+                        except:
+                            print("Digite um mês válido.")
+
+                        celular = int(input("N° CELULAR: "))
+
+                        cadastro = f"""INSERT INTO USUARIO VALUES ('{nome}', '{email}', {cep}, '{rua}', '{bairro}', '{uf}', '{cpf}', '{senha}', '{dtNacimento}', {celular}) """
 
                         inst_register.execute(cadastro)
                         conn.commit()
@@ -115,8 +129,8 @@ QUAL OPÇÃO DESEJA SELECIONAR? """))
                         print("\nDigite valores numéricos! ")
                         sleep(2)
 
-                    except:
-                        print("\nErro BD")
+                    except Exception as e:
+                        print(e)
                         sleep(2)
 
                     else:
@@ -129,7 +143,7 @@ QUAL OPÇÃO DESEJA SELECIONAR? """))
 
                     cpf = input("Digite o CPF do usuário que você deseja alterar: ")
 
-                    consult = f"""SELECT * FROM USUARIOB3 WHERE CPF = '{cpf}'"""
+                    consult = f"""SELECT * FROM USUARIO WHERE CPF = '{cpf}'"""
 
                     inst_consult.execute(consult)
                     data = inst_consult.fetchall()
@@ -145,15 +159,16 @@ QUAL OPÇÃO DESEJA SELECIONAR? """))
                         try:
                             opt = int(input("""
 1 - NOME
-2 - CPF
-3 - EMAIL
-4 - DATA DE NASCIMENTO
-5 - CEP
-6 - ENDERECO
-7 - NUMERO
-8 - COMPLEMENTO
-9 - BAIRRO
-10 - UF
+2 - EMAIL
+3 - CEP
+4 - RUA
+5 - BAIRRO
+6 - UF
+7 - CPF
+8 - SENHA
+9 - DATA DE NASCIMENTO
+10 - CELULAR
+
 Qual dado você deseja alterar? """))
 
                         except ValueError:
@@ -165,7 +180,7 @@ Qual dado você deseja alterar? """))
                             try:
                                 newName = input("\nNovo nome: ").upper()
 
-                                alter = f"""update usuariob3 set NOME = '{newName}' where cpf = '{cpf}'"""
+                                alter = f"""update USUARIO set NOME_USUARIO = '{newName}' where CPF = '{cpf}'"""
 
                                 inst_update.execute(alter)
                                 conn.commit()
@@ -178,48 +193,12 @@ Qual dado você deseja alterar? """))
                                 print("\nAtualização realizada!")
                                 sleep(2)
 
-                        # ALTERAR O CPF DO USUARIO
+                        # ALTERAR O E-MAIL DO USUARIO
                         elif opt == 2:
                             try:
-                                newCpf = input("\nNovo CPF: ").upper()
+                                newEmail = input("\nNovo E-MAIL: ").upper()
 
-                                alter = f"""update usuariob3 set CPF = '{newCpf}' where cpf = '{cpf}'"""
-
-                                inst_update.execute(alter)
-                                conn.commit()
-
-                            except:
-                                print("\nERRO banco de dados")
-                                sleep(2)
-
-                            else:
-                                print("\nAtualização realizada!")
-                                sleep(2)
-
-                        # ALTERAR O EMAIL DO USUARIO
-                        elif opt == 3:
-                            try:
-                                newEmail = input("\nNovo Email: ").upper()
-
-                                alter = f"""update usuariob3 set EMAIL = '{newEmail}' where cpf = '{cpf}'"""
-
-                                inst_update.execute(alter)
-                                conn.commit()
-
-                            except:
-                                print("\nERRO banco de dados")
-                                sleep(2)
-
-                            else:
-                                print("\nAtualização realizada!")
-                                sleep(2)
-
-                        # ALTERAR O NASCIMENTO DO USUARIO
-                        elif opt == 4:
-                            try:
-                                newNascimento = input("\nNova data de nascimento: ").upper()
-
-                                alter = f"""update usuariob3 set NASCIMENTO = '{newNascimento}' where cpf = '{cpf}'"""
+                                alter = f"""update USUARIO set EMAIL = '{newEmail}' where CPF = '{cpf}'"""
 
                                 inst_update.execute(alter)
                                 conn.commit()
@@ -233,53 +212,17 @@ Qual dado você deseja alterar? """))
                                 sleep(2)
 
                         # ALTERAR O CEP DO USUARIO
-                        elif opt == 5:
+                        elif opt == 3:
                             try:
-                                newCep = input("\nNovo CEP: ").upper()
+                                newCep = int(input("\nNovo CEP: "))
 
-                                alter = f"""update usuariob3 set CEP = '{newCep}' where cpf = '{cpf}'"""
-
-                                inst_update.execute(alter)
-                                conn.commit()
-
-                            except:
-                                print("\nERRO banco de dados")
-                                sleep(2)
-
-                            else:
-                                print("\nAtualização realizada!")
-                                sleep(2)
-
-                        # ALTERAR O ENDEREÇO DO USUARIO
-                        elif opt == 6:
-                            try:
-                                newEndereco = input("\nNovo endereço: ").upper()
-
-                                alter = f"""update usuariob3 set ENDERECO = '{newEndereco}' where cpf = '{cpf}'"""
-
-                                inst_update.execute(alter)
-                                conn.commit()
-
-                            except:
-                                print("\nERRO banco de dados")
-                                sleep(2)
-
-                            else:
-                                print("\nAtualização realizada!")
-                                sleep(2)
-
-                        # ALTERAR O NUMERO DO USUARIO
-                        elif opt == 7:
-                            try:
-                                newNumero = int(input("\nNovo número: "))
-
-                                alter = f"""update usuariob3 set NUMERO = {newNumero} where cpf = '{cpf}'"""
+                                alter = f"""update USUARIO set CEP = {newCep} where CPF = '{cpf}'"""
 
                                 inst_update.execute(alter)
                                 conn.commit()
 
                             except ValueError:
-                                print("\nDigite um valor numerico")
+                                print("\nDigite um valor numérico.")
                                 sleep(2)
 
                             except:
@@ -290,12 +233,12 @@ Qual dado você deseja alterar? """))
                                 print("\nAtualização realizada!")
                                 sleep(2)
 
-                        # ALTERAR O COMPLEMENTO DO USUARIO
-                        elif opt == 8:
+                        # ALTERAR A RUA DO USUARIO
+                        elif opt == 4:
                             try:
-                                newComplemento = input("\nNovo complemento: ").upper()
+                                newRua = input("\nNova rua: ").upper()
 
-                                alter = f"""update usuariob3 set COMPLEMENTO = '{newComplemento}' where cpf = '{cpf}'"""
+                                alter = f"""update USUARIO set RUA = '{newRua}' where CPF = '{cpf}'"""
 
                                 inst_update.execute(alter)
                                 conn.commit()
@@ -309,11 +252,11 @@ Qual dado você deseja alterar? """))
                                 sleep(2)
 
                         # ALTERAR O BAIRRO DO USUARIO
-                        elif opt == 9:
+                        elif opt == 5:
                             try:
-                                newBairro = input("\nNovo bairro: ").upper()
+                                newBairro = input("\nNovo Bairro: ").upper()
 
-                                alter = f"""update usuariob3 set BAIRRO = '{newBairro}' where cpf = '{cpf}'"""
+                                alter = f"""update USUARIO set BAIRRO = '{newBairro}' where CPF = '{cpf}'"""
 
                                 inst_update.execute(alter)
                                 conn.commit()
@@ -326,15 +269,105 @@ Qual dado você deseja alterar? """))
                                 print("\nAtualização realizada!")
                                 sleep(2)
 
-                        # ALTERAR A UF DO USUARIO
-                        elif opt == 10:
+                        # ALTERAR O UF DO USUARIO
+                        elif opt == 6:
                             try:
                                 newUf = input("\nNova UF: ").upper()
 
-                                alter = f"""update usuariob3 set UF = '{newUf}' where cpf = '{cpf}'"""
+                                alter = f"""update USUARIO set UF = '{newUf}' where CPF = '{cpf}'"""
 
                                 inst_update.execute(alter)
                                 conn.commit()
+
+                            except:
+                                print("\nERRO banco de dados")
+                                sleep(2)
+
+                            else:
+                                print("\nAtualização realizada!")
+                                sleep(2)
+
+                        # ALTERAR O CPF DO USUARIO
+                        elif opt == 7:
+                            try:
+                                newCpf = int(input("\nNovo CPF: "))
+
+                                alter = f"""update USUARIO set CPF = '{newCpf}' where cpf = '{cpf}'"""
+
+                                inst_update.execute(alter)
+                                conn.commit()
+
+                            except:
+                                print("\nERRO banco de dados")
+                                sleep(2)
+
+                            else:
+                                print("\nAtualização realizada!")
+                                sleep(2)
+
+                        # ALTERAR A SENHA DO USUARIO
+                        elif opt == 8:
+                            try:
+                                newSenha = input("\nNova senha: ")
+
+                                alter = f"""update USUARIO set SENHA = '{newSenha}' where cpf = '{cpf}'"""
+
+                                inst_update.execute(alter)
+                                conn.commit()
+
+                            except:
+                                print("\nERRO banco de dados")
+                                sleep(2)
+
+                            else:
+                                print("\nAtualização realizada!")
+                                sleep(2)
+
+                        # ALTERAR A DATA DE NASCIMENTO DO USUARIO
+                        elif opt == 9:
+                            try:
+                                newDtNascimento = input("\nNova data de nascimento (DD/MM/AA): ")
+
+                                try:
+                                    # Padronização de data para banco de dados
+                                    listaData = newDtNascimento.split("/")
+
+                                    listaMes = ["jan", "feb", "mar",
+                                                "apr", "may", "jun",
+                                                "jul", "aug", "sep",
+                                                "oct", "nov", "dec"]
+
+                                    textoMes = listaMes[int(listaData[1]) - 1]
+                                    newDtNascimento = f'{listaData[0]}-{textoMes}-{listaData[2]}'
+                                except:
+                                    print("Insira uma data válida.")
+
+                                alter = f"""update USUARIO set DATA_NASC = '{newDtNascimento}' where cpf = '{cpf}'"""
+
+                                inst_update.execute(alter)
+                                conn.commit()
+
+                            except:
+                                print("\nERRO banco de dados")
+                                sleep(2)
+
+                            else:
+                                print("\nAtualização realizada!")
+                                sleep(2)
+
+                        # ALTERAR O CELULAR DO USUARIO
+                        elif opt == 10:
+                            try:
+                                newCel = int(input("\nNovo n° celular: "))
+
+                                alter = f"""update USUARIO set CEL = {newCel} where cpf = '{cpf}'"""
+
+                                inst_update.execute(alter)
+                                conn.commit()
+
+                            except ValueError:
+                                print("\nDigite valores numéricos")
+                                sleep(2)
 
                             except:
                                 print("\nERRO banco de dados")
@@ -355,7 +388,7 @@ Qual dado você deseja alterar? """))
 
                         cpf = input("\nDigite o CPF do usuário que deseja excluir: ")
 
-                        consult = f"""SELECT * FROM usuariob3 WHERE cpf = '{cpf}'"""
+                        consult = f"""SELECT * FROM USUARIO WHERE cpf = '{cpf}'"""
 
                         inst_consult.execute(consult)
                         data = inst_consult.fetchall()
@@ -369,7 +402,7 @@ Qual dado você deseja alterar? """))
 
                         else:
                             try:
-                                delete = f"""delete from usuariob3 where cpf = '{cpf}'"""
+                                delete = f"""delete from USUARIO where cpf = '{cpf}'"""
                                 inst_delete.execute(delete)
                                 conn.commit()
 
@@ -408,7 +441,7 @@ QUAL OPÇÃO DESEJA SELECIONAR? """))
                     try:
                         dataList = []
 
-                        inst_consult.execute('SELECT * FROM EMPRESAB3')
+                        inst_consult.execute('SELECT * FROM EMPRESA')
 
                         data = inst_consult.fetchall()
 
@@ -417,7 +450,11 @@ QUAL OPÇÃO DESEJA SELECIONAR? """))
 
                         dataList = sorted(dataList)
 
-                        dataDf = pd.DataFrame.from_records(dataList, columns=['NOME', 'CNPJ', 'ANO DE ABERTURA'], index='CNPJ')
+                        dataDf = pd.DataFrame.from_records(dataList,
+                                                           columns=['CNPJ', 'NOME', 'SETOR', 'ANO DE ABERTURA',
+                                                                    'PRIMEIRO SEMESTRE', 'SEGUNDO SEMESTRE',
+                                                                    'TERCEIRO SEMESTRE', 'QUARTO SEMESTRE'],
+                                                           index='CNPJ')
                         if (dataDf.empty):
                             print("Não há registros")
                             sleep(2)
@@ -432,12 +469,16 @@ QUAL OPÇÃO DESEJA SELECIONAR? """))
                 # CADASTRANDO ATRIBUTOS NA EMPRESA
                 elif opt == 2:
                     try:
-                        nome = fake.name().upper()  # input("Nome:  ")
-                        cnpj = fake.cnpj().upper()  # int(input("CNPJ: "))
-                        abertura = fake.random_int(1000, 9999).upper()  # input("ANO DE ABERTURA: ")
+                        cnpj = int(input("CNPJ: "))
+                        nome = input("Nome: ").upper()
+                        setor = input("Setor: ").upper()
+                        anoAbertura = input("ANO DE ABERTURA: ")
+                        priTrimestre = float(input("Primeiro semestre: "))
+                        segTrimestre = float(input("Segundo semestre: "))
+                        terTrimestre = float(input("Terceiro semestre: "))
+                        quaTrimestre = float(input("Quarto semestre: "))
 
-
-                        cadastro = f"""INSERT INTO EMPRESAB3 (NOME, CNPJ, ANOABERTURA) VALUES ('{nome}', '{cnpj}', {abertura}) """
+                        cadastro = f"""INSERT INTO EMPRESA VALUES ({cnpj}, '{nome}', '{setor}', '{anoAbertura}', {priTrimestre}, {segTrimestre}, {terTrimestre}, {quaTrimestre})"""
 
                         inst_register.execute(cadastro)
                         conn.commit()
@@ -457,81 +498,89 @@ QUAL OPÇÃO DESEJA SELECIONAR? """))
                 elif opt == 3:
                     dataList = []
 
-                    cnpj = input("Digite o CNPJ da empresa que você deseja alterar: ")
+                    try:
+                        cnpj = int(input("Digite o CNPJ da empresa que você deseja alterar: "))
 
-                    consult = f"""SELECT * FROM EMPRESAB3 WHERE CNPJ = '{cnpj}'"""
+                        consult = f"""SELECT * FROM EMPRESA WHERE CNPJ = {cnpj}"""
 
-                    inst_consult.execute(consult)
-                    data = inst_consult.fetchall()
+                        inst_consult.execute(consult)
+                        data = inst_consult.fetchall()
 
-                    for oneData in data:
+                        for oneData in data:
                             dataList.append(oneData)
 
-                    if len(dataList) == 0:
-                        print("O CNPJ não existe.")
-                        sleep(2)
+                        if len(dataList) == 0:
+                            print("O CNPJ não existe.")
+                            sleep(2)
+
+                    except ValueError:
+                        print("\nDigite valores numéricos.")
 
                     else:
                         try:
                             opt = int(input("""
-1 - NOME
-2 - CNPJ
-3 - ANO DE ABERTURA
+1 - CNPJ
+2 - NOME
+3 - SETOR
+4 - ANO DE ABERTURA
+5 - PRIMEIRO TRIMESTRE
+6 - SEGUNDO TRIMESTRE
+7 - TERCEIRO TRIMESTRE
+8 - QUARTO TRIMESTRE
 Qual dado você deseja alterar? """))
 
                         except ValueError:
                             print("\nDigite valores numéricos! ")
                             sleep(2)
 
-                        # ALTERAR O NOME DA EMPRESA
+                        # ALTERAR O CNPJ DA EMPRESA
                         if opt == 1:
                             try:
-                                newName = input("\nNovo nome: ").upper()
+                                newCnpj = int(input("\nNovo CNPJ: "))
 
-                                alter = f"""update EMPRESAB3 set NOME = '{newName}' where CNPJ = '{cnpj}'"""
-
-                                inst_update.execute(alter)
-                                conn.commit()
-
-                            except:
-                                print("\nERRO banco de dados")
-                                sleep(2)
-
-                            else:
-                                print("\nAtualização realizada!")
-                                sleep(2)
-
-                        # ALTERAR O CNPJ DA EMPRESA
-                        elif opt == 2:
-                            try:
-                                newCnpj = input("\nNovo CNPJ: ").upper()
-
-                                alter = f"""update EMPRESAB3 set CNPJ = '{newCnpj}' where CNPJ = '{cnpj}'"""
-
-                                inst_update.execute(alter)
-                                conn.commit()
-
-                            except:
-                                print("\nERRO banco de dados")
-                                sleep(2)
-
-                            else:
-                                print("\nAtualização realizada!")
-                                sleep(2)
-
-                        # ALTERAR O ANO DE ABERTURA DA EMPRESA
-                        elif opt == 3:
-                            try:
-                                newAbertura = int(input("\nNovo ano de abertura: "))
-
-                                alter = f"""update usuariob3 set EMAIL = {newAbertura} where cpf = '{cnpj}'"""
+                                alter = f"""update EMPRESA set CNPJ = {newCnpj} where CNPJ = {cnpj}"""
 
                                 inst_update.execute(alter)
                                 conn.commit()
 
                             except ValueError:
-                                print("\nDigite um valor numérico")
+                                print("Digite valores numéricos.")
+
+                            except:
+                                print("\nERRO banco de dados")
                                 sleep(2)
+
+                            else:
+                                print("\nAtualização realizada!")
+                                sleep(2)
+
+                        # ALTERAR O NOME DA EMPRESA
+                        elif opt == 2:
+                            try:
+                                newNome = input("\nNovo nome: ").upper()
+
+                                alter = f"""update EMPRESA set NOME_EMPRESA = '{newNome}' where CNPJ = {cnpj}"""
+
+                                inst_update.execute(alter)
+                                conn.commit()
+
+                            except:
+                                print("\nERRO banco de dados")
+                                sleep(2)
+
+                            else:
+                                print("\nAtualização realizada!")
+                                sleep(2)
+
+                        # ALTERAR O SETOR DA EMPRESA
+                        elif opt == 3:
+                            try:
+                                newSetor = input("\nNovo setor: ")
+
+                                alter = f"""update EMPRESA set SETOR = '{newSetor}' where cnpj = {cnpj}"""
+
+                                inst_update.execute(alter)
+                                conn.commit()
 
                             except:
                                 print("Erro banco de dados")
@@ -541,14 +590,114 @@ Qual dado você deseja alterar? """))
                                 print("\nAtualização realizada!")
                                 sleep(2)
 
+                        # ALTERAR O ANO DE ABERTURA DA EMPRESA
+                        elif opt == 4:
+                            try:
+                                newAnoAbertura = input("\nNovo ano de abertura: ")
+
+                                alter = f"""update EMPRESA set ANO_ABERTURA = {newAnoAbertura} where cnpj = {cnpj}"""
+
+                                inst_update.execute(alter)
+                                conn.commit()
+
+                            except:
+                                print("Erro banco de dados")
+                                sleep(2)
+
+                            else:
+                                print("\nAtualização realizada!")
+                                sleep(2)
+
+                        # ALTERAR O PRIMEIRO SEMESTRE DA EMPRESA
+                        elif opt == 5:
+                            try:
+                                newPriSemestre = float(input("\nNovo primeiro semestre: "))
+
+                                alter = f"""update EMPRESA set PRIMEIRO_TRIMESTRE = {newPriSemestre} where CNPJ = {cnpj}"""
+
+                                inst_update.execute(alter)
+                                conn.commit()
+
+                            except ValueError:
+                                print("Digite valores numéricos.")
+
+                            except:
+                                print("\nERRO banco de dados")
+                                sleep(2)
+
+                            else:
+                                print("\nAtualização realizada!")
+                                sleep(2)
+
+                        # ALTERAR O SEGUNDO SEMESTRE DA EMPRESA
+                        elif opt == 6:
+                            try:
+                                newSegSemestre = float(input("\nNovo segundo semestre: "))
+
+                                alter = f"""update EMPRESA set SEGUNDO_TRIMESTRE = {newSegSemestre} where CNPJ = {cnpj}"""
+
+                                inst_update.execute(alter)
+                                conn.commit()
+
+                            except ValueError:
+                                print("Digite valores numéricos.")
+
+                            except:
+                                print("\nERRO banco de dados")
+                                sleep(2)
+
+                            else:
+                                print("\nAtualização realizada!")
+                                sleep(2)
+
+                        # ALTERAR O TERCEIRO SEMESTRE DA EMPRESA
+                        elif opt == 7:
+                            try:
+                                newTerSemestre = float(input("\nNovo terceiro semestre: "))
+
+                                alter = f"""update EMPRESA set TERCEIRO_TRIMESTRE = {newTerSemestre} where CNPJ = {cnpj}"""
+
+                                inst_update.execute(alter)
+                                conn.commit()
+
+                            except ValueError:
+                                print("Digite valores numéricos.")
+
+                            except:
+                                print("\nERRO banco de dados")
+                                sleep(2)
+
+                            else:
+                                print("\nAtualização realizada!")
+
+                        # ALTERAR O QUARTO SEMESTRE DA EMPRESA
+                        elif opt == 8:
+                            try:
+                                newQuaSemestre = float(input("\nNovo quarto semestre: "))
+
+                                alter = f"""update EMPRESA set QUARTO_TRIMESTRE = {newQuaSemestre} where CNPJ = {cnpj}"""
+
+                                inst_update.execute(alter)
+                                conn.commit()
+
+                            except ValueError:
+                                print("Digite valores numéricos.")
+
+                            except:
+                                print("\nERRO banco de dados")
+                                sleep(2)
+
+                            else:
+                                print("\nAtualização realizada!")
+
                 # EXCLUIR DADOS DA EMPRESA
                 elif opt == 4:
                     try:
                         dataList = []
 
-                        cnpj = input("\nDigite o CNPJ do usuário que deseja excluir: ")
+                        cnpj = int(input("\nDigite o CNPJ da empresa que deseja excluir: "))
 
-                        consult = f"""SELECT * FROM EMPRESAB3 WHERE CNPJ = '{cnpj}'"""
+                        consult = f"""SELECT * FROM EMPRESA WHERE CNPJ = {cnpj}"""
 
                         inst_consult.execute(consult)
                         data = inst_consult.fetchall()
@@ -562,7 +711,7 @@ Qual dado você deseja alterar? """))
 
                         else:
                             try:
-                                delete = f"""delete from EMPRESAB3 where CNPJ = '{cnpj}'"""
+                                delete = f"""delete from EMPRESA where CNPJ = {cnpj}"""
                                 inst_delete.execute(delete)
                                 conn.commit()
 
@@ -592,7 +741,7 @@ Qual dado você deseja alterar? """))
 
     # SE O USUARIO NÃO FOR ADM
     else:
-            # Menu principal com as primeiras funções
+        # Menu principal com as primeiras funções
         opt = int(input("""\nBEM-VINDO!
 PARA NAVEGAR ENTRE OS MENUS, DIGITE O NÚMERO DESEJADO:
 1 - SIMULADOR
@@ -683,6 +832,7 @@ DIGITE UMA OPÇÃO: """))
         elif opt == 0:
             # Finalização da utilização do sistema
             print("VOLTE SEMPRE!")
+            connection = False
 
         else:
             # Tratativa de erro caso o usuário selecionar uma opção não existente
