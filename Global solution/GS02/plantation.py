@@ -90,14 +90,17 @@ def insert():
             print("\nPLANTAÇÃO REALIZADA.")
 
 
-# FUNÇÃO P/ LER A TABELA HORTA
+# FUNÇÃO P/ LER A TABELA PLATACAO
 def consult():
     try:
         # LISTA DE DADOS VAZIA P/ SER ADICIONADO OS DADOS DE LEITURA
         dataList = []
 
         # COMANDO P/ CONSULTA NO SQL
-        inst_consult.execute("SELECT * FROM HORTA")
+        inst_consult.execute("""SELECT COD_PLANTACAO, NOME, NOME_HORTA, NOME_ALIMENTO, FILEIRA, POSICAO, QNTD_PLANTADA FROM PLANTACAO
+inner join USUARIO on PLANTACAO.COD_USUARIO = USUARIO.COD_USUARIO 
+inner join ALIMENTO on  PLANTACAO.COD_ALIMENTO = ALIMENTO.COD_ALIMENTO
+inner join HORTA on PLANTACAO.COD_HORTA = HORTA.COD_HORTA order by 1;""")
 
         # COMANDO P/BUSCAR OS DADOS
         data = inst_consult.fetchall()
@@ -109,11 +112,11 @@ def consult():
         dataList = sorted(dataList)
 
         dataDf = pd.DataFrame.from_records(dataList,
-                                           columns=['ID', 'NOME', 'CAPACIDADE'],
+                                           columns=['ID', 'NOME_USUARIO', 'HORTA', 'ALIMENTO', 'FILEIRA', 'POSICAO', 'QNTD_PLANTADA'],
                                            index='ID')
 
         if dataDf.empty:
-            print("\nNÃO HÁ REGISTRO NA TABELA DE HORTAS")
+            print("\nNÃO HÁ REGISTRO DE PLANTAÇÕES")
             sleep(2)
 
         else:
@@ -125,19 +128,19 @@ def consult():
         sleep(2)
 
 
-# FUNÇÃO P/ ALTERAR OS DADOS DE UMA HORTA
+# FUNÇÃO P/ ALTERAR OS DADOS DE UMA PLATACAO
 def alter():
     try:
         datalist = []
 
-        id = int(input("\nDIGITE O ID DA HORTA QUE DESEJA ALTERAR: "))
+        id = int(input("\nDIGITE O ID DA PLATAÇÃO QUE DESEJA ALTERAR: "))
 
     except ValueError:
         print("\nDIGITE APENAS VALORES NUMERICOS. ")
         sleep(2)
 
     else:
-        consult = f"""SELECT * FROM HORTA WHERE COD_HORTA = {id}"""
+        consult = f"""SELECT * FROM PLATACAO WHERE COD_PLATACAO = {id}"""
 
         inst_consult.execute(consult)
         data = inst_consult.fetchall()
@@ -151,7 +154,7 @@ def alter():
 
         else:
             try:
-                opt = int(input("""\n1 - ID
+                opt = int(input("""\n1 - ID PLANTAÇÃO
 2 - NOME
 3 - CAPACIDADE
 0 - SAIR
