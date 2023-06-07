@@ -53,13 +53,36 @@ def insert():
         print("\nDIGITE UM VALOR NUMERICO.")
         sleep(2)
 
-    except oracledb.IntegrityError:
-        print("\nPREENCHA TODOS OS DADOS.")
-        sleep(2)
+    except oracledb.IntegrityError as e:
+        error, = e.args
+        if error.code == 1438:
+            print("\nCOD POSSUI NO MAXIMO 5 CARACTERES.")
+            sleep(2)
 
-    except:
-        print("\nERRO BANCO DE DADOS")
-        sleep(2)
+        elif error.code == 1:
+            print("\nO CODIGO DO USUÁRIO JÁ EXISTE")
+            sleep(2)
+
+        elif error.code == 1400:
+            print("\nPREENCHA TODOS OS DADOS")
+            sleep(2)
+
+        else:
+            print("\nERRO IntegrityError: ", error.code)
+            sleep(2)
+
+    except oracledb.DatabaseError as e:
+        error, = e.args
+        if error.code == 12899:
+            print("\nLIMITE DE CARACTERES TEXTO ATINGIDO.")
+            sleep(2)
+
+        else:
+            print("\nERRO IntegrityError: ", error.code)
+            sleep(2)
+
+    except Exception as e:
+        print("\nERRO", e)
 
     else:
         print("\nDADOS CADASTRADO")
@@ -161,13 +184,23 @@ SELECIONE QUAL DADO DESEJA ALTERAR: """))
                         print("\nDIGITE APENAS VALORES NUMERICOS.")
                         sleep(2)
 
-                    except oracledb.DatabaseError:
-                        print("\nO CAMPO ID TEM NO MAXIMO 5 CARACTERES (XXXXX).")
-                        sleep(2)
+                    except oracledb.IntegrityError as e:
+                        error, = e.args
+                        if error.code == 1438:
+                            print("\nO CAMPO TEM NO MAXIM0 5 CARACTERES.")
+                            sleep(2)
 
-                    except:
-                        print("\nERRO BANCO DE DADOS.")
-                        sleep(2)
+                        elif error.code == 1:
+                            print("\nO CODIGO DO USUÁRIO JÁ EXISTE")
+                            sleep(2)
+
+                        elif error.code == 1400:
+                            print("\nPREENCHA TODOS OS DADOS")
+                            sleep(2)
+
+                        else:
+                            print("\nERRO IntegrityError: ", error.code)
+                            sleep(2)
 
                     else:
                         print("\nATUALIZAÇÃO REALIZADA.")
@@ -183,8 +216,23 @@ SELECIONE QUAL DADO DESEJA ALTERAR: """))
                         inst_update.execute(alter)
                         conn.commit()
 
-                    except:
-                        print(print("\nERRO BANCO DE DADOS."))
+                    except oracledb.IntegrityError as e:
+                        error, = e.args
+                        if error.code > 0:
+                            print("\nERRO IntegrityError: ", error.code)
+                            sleep(2)
+
+                    except oracledb.DatabaseError as e:
+                        error, = e.args
+                        if error.code == 12899:
+                            print("\nLIMITE DE CARACTERES TEXTO ATINGIDO.")
+                            sleep(2)
+
+                        else:
+                            print("\nERRO DatabaseError: ", error.code)
+
+                    except Exception as e:
+                        print("\nERRO: ", e)
                         sleep(2)
 
                     else:
@@ -201,8 +249,23 @@ SELECIONE QUAL DADO DESEJA ALTERAR: """))
                         inst_update.execute(alter)
                         conn.commit()
 
-                    except:
-                        print("\nERRO BANCO DE DADOS.")
+                    except oracledb.IntegrityError as e:
+                        error, = e.args
+                        if error.code > 0:
+                            print("\nERRO IntegrityError: ", error.code)
+                            sleep(2)
+
+                    except oracledb.DatabaseError as e:
+                        error, = e.args
+                        if error.code == 12899:
+                            print("\nLIMITE DE CARACTERES TEXTO ATINGIDO.")
+                            sleep(2)
+
+                        else:
+                            print("\nERRO DatabaseError: ", error.code)
+
+                    except Exception as e:
+                        print("\nERRO: ", e)
                         sleep(2)
 
                     else:
@@ -219,12 +282,23 @@ SELECIONE QUAL DADO DESEJA ALTERAR: """))
                         inst_update.execute(alter)
                         conn.commit()
 
-                    except oracledb.DatabaseError:
-                        print("\nDIGITE SOMENTE 9 CARACTERES (00000-000).")
-                        sleep(2)
+                    except oracledb.IntegrityError as e:
+                        error, = e.args
+                        if error.code > 0:
+                            print("\nERRO IntegrityError: ", error.code)
+                            sleep(2)
 
-                    except:
-                        print("\nERRO BANCO DE DADOS.")
+                    except oracledb.DatabaseError as e:
+                        error, = e.args
+                        if error.code == 12899:
+                            print("\nLIMITE DE CARACTERES TEXTO ATINGIDO.")
+                            sleep(2)
+
+                        else:
+                            print("\nERRO DatabaseError: ", error.code)
+
+                    except Exception as e:
+                        print("\nERRO: ", e)
                         sleep(2)
 
                     else:
@@ -241,8 +315,23 @@ SELECIONE QUAL DADO DESEJA ALTERAR: """))
                         inst_update.execute(alter)
                         conn.commit()
 
-                    except:
-                        print("\nERRO BANCO DE DADOS.")
+                    except oracledb.IntegrityError as e:
+                        error, = e.args
+                        if error.code > 0:
+                            print("\nERRO IntegrityError: ", error.code)
+                            sleep(2)
+
+                    except oracledb.DatabaseError as e:
+                        error, = e.args
+                        if error.code == 12899:
+                            print("\nLIMITE DE CARACTERES TEXTO ATINGIDO.")
+                            sleep(2)
+
+                        else:
+                            print("\nERRO DatabaseError: ", error.code)
+
+                    except Exception as e:
+                        print("\nERRO: ", e)
                         sleep(2)
 
                     else:
@@ -259,8 +348,23 @@ SELECIONE QUAL DADO DESEJA ALTERAR: """))
                         inst_update.execute(alter)
                         conn.commit()
 
-                    except:
-                        print("\nERRO BANCO DE DADOS.")
+                    except oracledb.IntegrityError as e:
+                        error, = e.args
+                        if error.code > 0:
+                            print("\nERRO IntegrityError: ", error.code)
+                            sleep(2)
+
+                    except oracledb.DatabaseError as e:
+                        error, = e.args
+                        if error.code == 12899:
+                            print("\nLIMITE DE CARACTERES TEXTO ATINGIDO.")
+                            sleep(2)
+
+                        else:
+                            print("\nERRO DatabaseError: ", error.code)
+
+                    except Exception as e:
+                        print("\nERRO: ", e)
                         sleep(2)
 
                     else:
@@ -277,8 +381,23 @@ SELECIONE QUAL DADO DESEJA ALTERAR: """))
                         inst_update.execute(alter)
                         conn.commit()
 
-                    except:
-                        print("\nERRO BANCO DE DADOS.")
+                    except oracledb.IntegrityError as e:
+                        error, = e.args
+                        if error.code > 0:
+                            print("\nERRO IntegrityError: ", error.code)
+                            sleep(2)
+
+                    except oracledb.DatabaseError as e:
+                        error, = e.args
+                        if error.code == 12899:
+                            print("\nLIMITE DE CARACTERES TEXTO ATINGIDO.")
+                            sleep(2)
+
+                        else:
+                            print("\nERRO DatabaseError: ", error.code)
+
+                    except Exception as e:
+                        print("\nERRO: ", e)
                         sleep(2)
 
                     else:
@@ -295,12 +414,23 @@ SELECIONE QUAL DADO DESEJA ALTERAR: """))
                         inst_update.execute(alter)
                         conn.commit()
 
-                    except oracledb.DatabaseError:
-                        print("\nDIGITE SOMENTE 2 CARACTERES (XX).")
-                        sleep(2)
+                    except oracledb.IntegrityError as e:
+                        error, = e.args
+                        if error.code > 0:
+                            print("\nERRO IntegrityError: ", error.code)
+                            sleep(2)
 
-                    except:
-                        print("\nERRO BANCO DE DADOS.")
+                    except oracledb.DatabaseError as e:
+                        error, = e.args
+                        if error.code == 12899:
+                            print("\nLIMITE DE CARACTERES TEXTO ATINGIDO.")
+                            sleep(2)
+
+                        else:
+                            print("\nERRO DatabaseError: ", error.code)
+
+                    except Exception as e:
+                        print("\nERRO: ", e)
                         sleep(2)
 
                     else:
@@ -317,13 +447,36 @@ SELECIONE QUAL DADO DESEJA ALTERAR: """))
                         inst_update.execute(alter)
                         conn.commit()
 
-                    except:
-                        print("\nERRO BANCO DE DADOS.")
+                    except oracledb.IntegrityError as e:
+                        error, = e.args
+                        if error.code > 0:
+                            print("\nERRO IntegrityError: ", error.code)
+                            sleep(2)
+
+                    except oracledb.DatabaseError as e:
+                        error, = e.args
+                        if error.code == 12899:
+                            print("\nLIMITE DE CARACTERES TEXTO ATINGIDO.")
+                            sleep(2)
+
+                        else:
+                            print("\nERRO DatabaseError: ", error.code)
+
+                    except Exception as e:
+                        print("\nERRO: ", e)
                         sleep(2)
 
                     else:
                         print("\nATUALIZAÇÃO REALIZADA.")
                         sleep(2)
+
+                elif opt == 0:
+                    print("\nVOLTE SEMPRE!")
+                    connection = False
+
+                else:
+                    print("\nDIGITE UMA OPÇÃO VÁLIDA")
+                    sleep(2)
 
 
 # FUNÇÃO P/ EXCLUIR OS DADOS DE UM USUÁRIO

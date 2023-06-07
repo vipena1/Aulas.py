@@ -86,8 +86,8 @@ def insert():
             print("\nERRO IntegrityError: ", error.code)
             sleep(2)
 
-    except:
-        print("\nERRO BANCO DE DADOS")
+    except Exception as e:
+        print("\nERRO: ", e)
         sleep(2)
 
     else:
@@ -193,14 +193,22 @@ SELECIONE QUAL DADO DESEJA ALTERAR: """))
                         print("\nDIGITE APENAS VALORES NUMERICOS.")
                         sleep(2)
 
-                    except oracledb.DatabaseError:
-                        print("\nO CAMPO ID TEM NO MAXIMO 5 CARACTERES (XXXXX).")
-                        sleep(2)
+                    except oracledb.IntegrityError as e:
+                        error, = e.args
+                        if error.code == 1438:
+                            print("\nO CAMPO TEM NO MAXIMO 5 CARACTERES (XXXXX)")
+                            sleep(2)
 
-                    # VERIFICAR UM EXCEPT P/ QUANDO COLOCAR UM ID JÁ EXISTENTE ***************************************************************************************************************************************
+                        elif error.code == 1:
+                            print("\nO CODIGO DA PLANTAÇÃO JÁ EXISTE")
+                            sleep(2)
 
-                    except:
-                        print("\nERRO BANCO DE DADOS.")
+                        else:
+                            print("\nERRO IntegrityError: ", error.code)
+                            sleep(2)
+
+                    except Exception as e:
+                        print("\nERRO: ", e)
                         sleep(2)
 
                     else:
@@ -217,8 +225,19 @@ SELECIONE QUAL DADO DESEJA ALTERAR: """))
                         inst_update.execute(alter)
                         conn.commit()
 
-                    except:
-                        print(print("\nERRO BANCO DE DADOS."))
+
+                    except oracledb.IntegrityError as e:
+                        error, = e.args
+                        if error.code == 1438:
+                            print("\nO CAMPO TEM NO MAXIMO 5 CARACTERES (XXXXX)")
+                            sleep(2)
+
+                        else:
+                            print("\nERRO IntegrityError: ", error.code)
+                            sleep(2)
+
+                    except Exception as e:
+                        print("\nERRO: ", e)
                         sleep(2)
 
                     else:
@@ -239,12 +258,18 @@ SELECIONE QUAL DADO DESEJA ALTERAR: """))
                         print("\nDIGITE APENAS VALORES NUMERICOS.")
                         sleep(2)
 
-                    except oracledb.DatabaseError:
-                        print("\nO CAMPO ID TEM NO MAXIMO 5 CARACTERES (XXXXX).")
-                        sleep(2)
+                    except oracledb.IntegrityError as e:
+                        error, = e.args
+                        if error.code == 1438:
+                            print("\nO CAMPO TEM NO MAXIMO 5 CARACTERES (XXXXX)")
+                            sleep(2)
 
-                    except:
-                        print("\nERRO BANCO DE DADOS.")
+                        else:
+                            print("\nERRO IntegrityError: ", error.code)
+                            sleep(2)
+
+                    except Exception as e:
+                        print("\nERRO: ", e)
                         sleep(2)
 
                     else:
@@ -253,107 +278,131 @@ SELECIONE QUAL DADO DESEJA ALTERAR: """))
 
                 # ALTERAR ID DA HORTA
                 elif opt == 4:
-                        try:
-                            newIdGarden = int(input("\nNOVO ID DO HORTA: "))
+                    try:
+                        newIdGarden = int(input("\nNOVO ID DO HORTA: "))
 
-                            alter = f"""UPDATE PLANTACAO SET COD_HORTA = {newIdGarden} WHERE COD_PLANTACAO = {id}"""
+                        alter = f"""UPDATE PLANTACAO SET COD_HORTA = {newIdGarden} WHERE COD_PLANTACAO = {id}"""
 
-                            inst_update.execute(alter)
-                            conn.commit()
+                        inst_update.execute(alter)
+                        conn.commit()
 
-                        except ValueError:
-                            print("\nDIGITE APENAS VALORES NUMERICOS.")
-                            sleep(2)
+                    except ValueError:
+                        print("\nDIGITE APENAS VALORES NUMERICOS.")
+                        sleep(2)
 
-                        except oracledb.DatabaseError:
-                            print("\nO CAMPO ID TEM NO MAXIMO 5 CARACTERES (XXXXX).")
-                            sleep(2)
-
-                        except:
-                            print("\nERRO BANCO DE DADOS.")
+                    except oracledb.IntegrityError as e:
+                        error, = e.args
+                        if error.code == 1438:
+                            print("\nO CAMPO TEM NO MAXIMO 5 CARACTERES (XXXXX)")
                             sleep(2)
 
                         else:
-                            print("\nATUALIZAÇÃO REALIZADA.")
+                            print("\nERRO IntegrityError: ", error.code)
                             sleep(2)
+
+                    except Exception as e:
+                        print("\nERRO: ", e)
+                        sleep(2)
+
+                    else:
+                        print("\nATUALIZAÇÃO REALIZADA.")
+                        sleep(2)
 
                 # ALTERAR FILEIRA
                 elif opt == 5:
-                        try:
-                            newRow = int(input("\nNOVA FILEIRA: "))
+                    try:
+                        newRow = int(input("\nNOVA FILEIRA: "))
 
-                            alter = f"""UPDATE PLANTACAO SET FILEIRA = {newRow} WHERE COD_PLANTACAO = {id}"""
+                        alter = f"""UPDATE PLANTACAO SET FILEIRA = {newRow} WHERE COD_PLANTACAO = {id}"""
 
-                            inst_update.execute(alter)
-                            conn.commit()
+                        inst_update.execute(alter)
+                        conn.commit()
 
-                        except ValueError:
-                            print("\nDIGITE APENAS VALORES NUMERICOS.")
-                            sleep(2)
+                    except ValueError:
+                        print("\nDIGITE APENAS VALORES NUMERICOS.")
+                        sleep(2)
 
-                        except oracledb.DatabaseError:
-                            print("\nO CAMPO ID TEM NO MAXIMO 5 CARACTERES (XXXXX).")
-                            sleep(2)
-
-                        except:
-                            print("\nERRO BANCO DE DADOS.")
+                    except oracledb.IntegrityError as e:
+                        error, = e.args
+                        if error.code == 1438:
+                            print("\nO CAMPO TEM NO MAXIMO 5 CARACTERES (XXXXX)")
                             sleep(2)
 
                         else:
-                            print("\nATUALIZAÇÃO REALIZADA.")
+                            print("\nERRO IntegrityError: ", error.code)
                             sleep(2)
+
+                    except Exception as e:
+                        print("\nERRO: ", e)
+                        sleep(2)
+
+                    else:
+                        print("\nATUALIZAÇÃO REALIZADA.")
+                        sleep(2)
 
                 # ALTERAR POSIÇÃO
                 elif opt == 6:
-                        try:
-                            newPositino = int(input("\nNOVA POSIÇÃO: "))
+                    try:
+                        newPositino = int(input("\nNOVA POSIÇÃO: "))
 
-                            alter = f"""UPDATE PLANTACAO SET POSICAO = {newPositino} WHERE COD_PLANTACAO = {id}"""
+                        alter = f"""UPDATE PLANTACAO SET POSICAO = {newPositino} WHERE COD_PLANTACAO = {id}"""
 
-                            inst_update.execute(alter)
-                            conn.commit()
+                        inst_update.execute(alter)
+                        conn.commit()
 
-                        except ValueError:
-                            print("\nDIGITE APENAS VALORES NUMERICOS.")
-                            sleep(2)
+                    except ValueError:
+                        print("\nDIGITE APENAS VALORES NUMERICOS.")
+                        sleep(2)
 
-                        except oracledb.DatabaseError:
-                            print("\nO CAMPO ID TEM NO MAXIMO 5 CARACTERES (XXXXX).")
-                            sleep(2)
-
-                        except:
-                            print("\nERRO BANCO DE DADOS.")
+                    except oracledb.IntegrityError as e:
+                        error, = e.args
+                        if error.code == 1438:
+                            print("\nOS CAMPOS TEM NO MAXIMO 5 CARACTERES (XXXXX)")
                             sleep(2)
 
                         else:
-                            print("\nATUALIZAÇÃO REALIZADA.")
+                            print("\nERRO IntegrityError: ", error.code)
                             sleep(2)
+
+                    except Exception as e:
+                        print("\nERRO: ", e)
+                        sleep(2)
+
+                    else:
+                        print("\nATUALIZAÇÃO REALIZADA.")
+                        sleep(2)
 
                 # ALTERAR QUANTIDADE PLANTADA
                 elif opt == 7:
-                        try:
-                            newQtyPlantation = int(input("\nNOVA QUANTIDADE PLANTADA: "))
+                    try:
+                        newQtyPlantation = int(input("\nNOVA QUANTIDADE PLANTADA: "))
 
-                            alter = f"""UPDATE PLANTACAO SET QNTD_PLANTADA = {newQtyPlantation} WHERE COD_PLANTACAO = {id}"""
+                        alter = f"""UPDATE PLANTACAO SET QNTD_PLANTADA = {newQtyPlantation} WHERE COD_PLANTACAO = {id}"""
 
-                            inst_update.execute(alter)
-                            conn.commit()
+                        inst_update.execute(alter)
+                        conn.commit()
 
-                        except ValueError:
-                            print("\nDIGITE APENAS VALORES NUMERICOS.")
-                            sleep(2)
+                    except ValueError:
+                        print("\nDIGITE APENAS VALORES NUMERICOS.")
+                        sleep(2)
 
-                        except oracledb.DatabaseError:
-                            print("\nO CAMPO ID TEM NO MAXIMO 5 CARACTERES (XXXXX).")
-                            sleep(2)
-
-                        except:
-                            print("\nERRO BANCO DE DADOS.")
+                    except oracledb.IntegrityError as e:
+                        error, = e.args
+                        if error.code == 1438:
+                            print("\nOS CAMPOS TEM NO MAXIMO 5 CARACTERES (XXXXX)")
                             sleep(2)
 
                         else:
-                            print("\nATUALIZAÇÃO REALIZADA.")
+                            print("\nERRO IntegrityError: ", error.code)
                             sleep(2)
+
+                    except Exception as e:
+                        print("\nERRO: ", e)
+                        sleep(2)
+
+                    else:
+                        print("\nATUALIZAÇÃO REALIZADA.")
+                        sleep(2)
 
                 elif opt == 0:
                     print("\nVOLTE SEMPRE!")
