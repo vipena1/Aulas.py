@@ -11,7 +11,7 @@ from time import sleep
 import user
 import food
 import garden
-
+import plantation
 
 try:
     # Abrindo conexão com o banco
@@ -22,6 +22,7 @@ try:
     inst_register = conn.cursor()
     inst_update = conn.cursor()
     inst_delete = conn.cursor()
+    inst_extract = conn.cursor()  # extrair relatorios
 
 except Exception as e:
     # Se der erro retornara o motivo
@@ -185,19 +186,19 @@ DIGITE UMA OPÇÃO: """))
             else:
                 if opt == 1:
 
-                    print('inserir')
+                    plantation.insert()
 
                 elif opt == 2:
 
-                    print('consulta')
+                    plantation.consult()
 
                 elif opt == 3:
 
-                    print('alterar')
+                    plantation.alter()
 
                 elif opt == 4:
 
-                    print('excluir') # CRIAR UMA FORMA DE QUANDO DELETAR O LANÇAMENTO DE PLATAÇÃO RETORNAR O VALOR PARA ESTOQUE
+                    plantation.delete()
 
                 elif opt == 0:
                     print("\nVOLTE SEMPRE!")

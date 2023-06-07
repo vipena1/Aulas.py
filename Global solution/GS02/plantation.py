@@ -27,11 +27,11 @@ else:
     connection = True
 
 
-# FUNÇÃO P/ INSERIR NOVO LANÇAMENTO NA PLATACAO
+# FUNÇÃO P/ INSERIR NOVO LANÇAMENTO NA PLANTACAO
 def insert():
     try:
         # COLETA DE DADOS DA PLATACAO
-        idPlantation = int(input("CODIGO DA PLATAÇÃO: "))
+        idPlantation = int(input("\nCODIGO DA PLATAÇÃO: "))
         idUser = int(input("CODIGO DO USUÁRIO: "))
         idFood = int(input("CODIGO DO ALIMENTO: "))
         idGarden = int(input("CODIGO DA HORTA: "))
@@ -51,7 +51,7 @@ def insert():
         else:
 
             # COMANDO P/ REGISTRO NO SQL
-            register = f"""INSERT INTO PLATACAO VALUES ({idPlantation}, {idUser}, {idFood}, {idGarden}, {row}, {position}, {qtyPlantation})"""
+            register = f"""INSERT INTO PLANTACAO VALUES ({idPlantation}, {idUser}, {idFood}, {idGarden}, {row}, {position}, {qtyPlantation})"""
 
             # EXECUÇÃO DO COMANDO
             inst_register.execute(register)
@@ -65,18 +65,26 @@ def insert():
             conn.commit()
 
     except ValueError:
-        print("\nDIGITE SOMENTE VALORES NUMÉRICO.")
+        print("\nPREENCHA TODOS OS CAMPOS COM NÚMEROS.")
         sleep(2)
 
-    except oracledb.IntegrityError:
-        print("\nPREENCHA TODOS OS DADOS.")
+    except IndexError:
+        print("\nALIMENTO NÃO ENCONTRADO.")
         sleep(2)
 
-    except oracledb.DatabaseError:
-        print("\nOS CAMPOS TEM NO MAXIMO 5 CARACTERES (XXXXX).")
-        sleep(2)
+    except oracledb.IntegrityError as e:
+        error, = e.args
+        if error.code == 1438:
+            print("\nOS CAMPOS TEM NO MAXIMO 5 CARACTERES (XXXXX)")
+            sleep(2)
 
-    # VERIFICAR UM EXCEPT P/ QUANDO COLOCAR UM ID JÁ EXISTENTE ***************************************************************************************************************************************
+        elif error.code == 1:
+            print("\nO CODIGO DA PLANTAÇÃO JÁ EXISTE")
+            sleep(2)
+
+        else:
+            print("\nERRO IntegrityError: ", error.code)
+            sleep(2)
 
     except:
         print("\nERRO BANCO DE DADOS")
@@ -90,7 +98,7 @@ def insert():
             print("\nPLANTAÇÃO REALIZADA.")
 
 
-# FUNÇÃO P/ LER A TABELA PLATACAO
+# FUNÇÃO P/ LER A TABELA PLANTACAO
 def consult():
     try:
         # LISTA DE DADOS VAZIA P/ SER ADICIONADO OS DADOS DE LEITURA
@@ -100,7 +108,7 @@ def consult():
         inst_consult.execute("""SELECT COD_PLANTACAO, NOME, NOME_HORTA, NOME_ALIMENTO, FILEIRA, POSICAO, QNTD_PLANTADA FROM PLANTACAO
 inner join USUARIO on PLANTACAO.COD_USUARIO = USUARIO.COD_USUARIO 
 inner join ALIMENTO on  PLANTACAO.COD_ALIMENTO = ALIMENTO.COD_ALIMENTO
-inner join HORTA on PLANTACAO.COD_HORTA = HORTA.COD_HORTA order by 1;""")
+inner join HORTA on PLANTACAO.COD_HORTA = HORTA.COD_HORTA order by 1""")
 
         # COMANDO P/BUSCAR OS DADOS
         data = inst_consult.fetchall()
@@ -112,7 +120,8 @@ inner join HORTA on PLANTACAO.COD_HORTA = HORTA.COD_HORTA order by 1;""")
         dataList = sorted(dataList)
 
         dataDf = pd.DataFrame.from_records(dataList,
-                                           columns=['ID', 'NOME_USUARIO', 'HORTA', 'ALIMENTO', 'FILEIRA', 'POSICAO', 'QNTD_PLANTADA'],
+                                           columns=['ID', 'NOME_USUARIO', 'HORTA', 'ALIMENTO', 'FILEIRA', 'POSICAO',
+                                                    'QNTD_PLANTADA'],
                                            index='ID')
 
         if dataDf.empty:
@@ -128,7 +137,7 @@ inner join HORTA on PLANTACAO.COD_HORTA = HORTA.COD_HORTA order by 1;""")
         sleep(2)
 
 
-# FUNÇÃO P/ ALTERAR OS DADOS DE UMA PLATACAO
+# FUNÇÃO P/ ALTERAR OS DADOS DE UMA PLANTACAO
 def alter():
     try:
         datalist = []
@@ -155,8 +164,12 @@ def alter():
         else:
             try:
                 opt = int(input("""\n1 - ID PLANTAÇÃO
-2 - NOME
-3 - CAPACIDADE
+2 - ID USUÁRIO
+3 - ID ALIMENTO
+4 - ID HORTA
+5 - FILEIRA PLANTADA
+6 - POSIÇÃO PLANTADA
+7 - QUANTIDADE PLANTADA
 0 - SAIR
 
 SELECIONE QUAL DADO DESEJA ALTERAR: """))
@@ -166,12 +179,12 @@ SELECIONE QUAL DADO DESEJA ALTERAR: """))
                 sleep(2)
 
             else:
-                # ALTERAR ID DA HORTA
+                # ALTERAR ID DA PLANTACAO
                 if opt == 1:
                     try:
-                        newId = int(input("\nNOVO ID: "))
+                        newIdPlantation = int(input("\nNOVO ID PLANTAÇÃO: "))
 
-                        alter = f"""UPDATE HORTA SET COD_HORTA = {newId} WHERE COD_HORTA = {id}"""
+                        alter = f"""UPDATE PLANTACAO SET COD_PLATACAO = {newIdPlantation} WHERE COD_PLATACAO = {id}"""
 
                         inst_update.execute(alter)
                         conn.commit()
@@ -194,12 +207,12 @@ SELECIONE QUAL DADO DESEJA ALTERAR: """))
                         print("\nATUALIZAÇÃO REALIZADA.")
                         sleep(2)
 
-                # ALTERAR NOME DA HORTA
+                # ALTERAR ID DA USUARIO
                 elif opt == 2:
                     try:
-                        newName = input("\nNOVO NOME: ").upper()
+                        newIdUser = int(input("\nNOVO ID USUARIO: "))
 
-                        alter = f"""UPDATE HORTA SET NOME_HORTA = '{newName}' WHERE COD_HORTA = {id}"""
+                        alter = f"""UPDATE PLANTACAO SET COD_USUARIO = {newIdUser} WHERE COD_PLATACAO = {id}"""
 
                         inst_update.execute(alter)
                         conn.commit()
@@ -212,12 +225,12 @@ SELECIONE QUAL DADO DESEJA ALTERAR: """))
                         print("\nATUALIZAÇÃO REALIZADA.")
                         sleep(2)
 
-                # ALTERAR CAPACIDADE DA HORTA
+                # ALTERAR ID DA ALIMENTO
                 elif opt == 3:
                     try:
-                        newStorage = int(input("\nNOVO E-MAIL: "))
+                        newIdFood = int(input("\nNOVO ID DO ALIMENTO: "))
 
-                        alter = f"""UPDATE HORTA SET CAPACIDADE_PLANTIO = {newStorage} WHERE COD_HORTA = {id}"""
+                        alter = f"""UPDATE PLANTACAO SET COD_ALIMENTO = {newIdFood} WHERE COD_PLANTACAO = {id}"""
 
                         inst_update.execute(alter)
                         conn.commit()
@@ -238,6 +251,110 @@ SELECIONE QUAL DADO DESEJA ALTERAR: """))
                         print("\nATUALIZAÇÃO REALIZADA.")
                         sleep(2)
 
+                # ALTERAR ID DA HORTA
+                elif opt == 4:
+                        try:
+                            newIdGarden = int(input("\nNOVO ID DO HORTA: "))
+
+                            alter = f"""UPDATE PLANTACAO SET COD_HORTA = {newIdGarden} WHERE COD_PLANTACAO = {id}"""
+
+                            inst_update.execute(alter)
+                            conn.commit()
+
+                        except ValueError:
+                            print("\nDIGITE APENAS VALORES NUMERICOS.")
+                            sleep(2)
+
+                        except oracledb.DatabaseError:
+                            print("\nO CAMPO ID TEM NO MAXIMO 5 CARACTERES (XXXXX).")
+                            sleep(2)
+
+                        except:
+                            print("\nERRO BANCO DE DADOS.")
+                            sleep(2)
+
+                        else:
+                            print("\nATUALIZAÇÃO REALIZADA.")
+                            sleep(2)
+
+                # ALTERAR FILEIRA
+                elif opt == 5:
+                        try:
+                            newRow = int(input("\nNOVA FILEIRA: "))
+
+                            alter = f"""UPDATE PLANTACAO SET FILEIRA = {newRow} WHERE COD_PLANTACAO = {id}"""
+
+                            inst_update.execute(alter)
+                            conn.commit()
+
+                        except ValueError:
+                            print("\nDIGITE APENAS VALORES NUMERICOS.")
+                            sleep(2)
+
+                        except oracledb.DatabaseError:
+                            print("\nO CAMPO ID TEM NO MAXIMO 5 CARACTERES (XXXXX).")
+                            sleep(2)
+
+                        except:
+                            print("\nERRO BANCO DE DADOS.")
+                            sleep(2)
+
+                        else:
+                            print("\nATUALIZAÇÃO REALIZADA.")
+                            sleep(2)
+
+                # ALTERAR POSIÇÃO
+                elif opt == 6:
+                        try:
+                            newPositino = int(input("\nNOVA POSIÇÃO: "))
+
+                            alter = f"""UPDATE PLANTACAO SET POSICAO = {newPositino} WHERE COD_PLANTACAO = {id}"""
+
+                            inst_update.execute(alter)
+                            conn.commit()
+
+                        except ValueError:
+                            print("\nDIGITE APENAS VALORES NUMERICOS.")
+                            sleep(2)
+
+                        except oracledb.DatabaseError:
+                            print("\nO CAMPO ID TEM NO MAXIMO 5 CARACTERES (XXXXX).")
+                            sleep(2)
+
+                        except:
+                            print("\nERRO BANCO DE DADOS.")
+                            sleep(2)
+
+                        else:
+                            print("\nATUALIZAÇÃO REALIZADA.")
+                            sleep(2)
+
+                # ALTERAR QUANTIDADE PLANTADA
+                elif opt == 7:
+                        try:
+                            newQtyPlantation = int(input("\nNOVA QUANTIDADE PLANTADA: "))
+
+                            alter = f"""UPDATE PLANTACAO SET QNTD_PLANTADA = {newQtyPlantation} WHERE COD_PLANTACAO = {id}"""
+
+                            inst_update.execute(alter)
+                            conn.commit()
+
+                        except ValueError:
+                            print("\nDIGITE APENAS VALORES NUMERICOS.")
+                            sleep(2)
+
+                        except oracledb.DatabaseError:
+                            print("\nO CAMPO ID TEM NO MAXIMO 5 CARACTERES (XXXXX).")
+                            sleep(2)
+
+                        except:
+                            print("\nERRO BANCO DE DADOS.")
+                            sleep(2)
+
+                        else:
+                            print("\nATUALIZAÇÃO REALIZADA.")
+                            sleep(2)
+
                 elif opt == 0:
                     print("\nVOLTE SEMPRE!")
                     connection = False
@@ -247,13 +364,13 @@ SELECIONE QUAL DADO DESEJA ALTERAR: """))
                     sleep(2)
 
 
-# FUNÇÃO P/ EXCLUIR OS DADOS DE UMA HORTA
+# FUNÇÃO P/ EXCLUIR OS DADOS DE UMA PLANTACAO
 def delete():
     try:
         dataList = []
-        id = int(input("\nDIGITE O ID DA HORTA QUE DESEJA EXCLUIR: "))
+        id = int(input("\nDIGITE O ID DA PLANTAÇÃO QUE DESEJA EXCLUIR: "))
 
-        consult = f"""SELECT * FROM HORTA WHERE COD_HORTA = {id}"""
+        consult = f"""SELECT * FROM PLANTACAO WHERE COD_PLANTACAO = {id}"""
 
         inst_consult.execute(consult)
         data = inst_consult.fetchall()
@@ -267,7 +384,7 @@ def delete():
 
         else:
             try:
-                delete = f"""DELETE FROM HORTA WHERE COD_HORTA = {id}"""
+                delete = f"""DELETE FROM PLANTACAO WHERE COD_PLANTACAO = {id}"""
 
                 inst_delete.execute(delete)
                 conn.commit()
@@ -275,6 +392,8 @@ def delete():
             except:
                 print("\nERRO BANCO DE DADOS.")
                 sleep(2)
+
+            # verificar codigo de erro p/ quando não excluir por causa das relações existentes
 
             else:
                 print("\nDADOS EXCLUIDOS.")

@@ -46,19 +46,19 @@ def insert():
         print("\nDIGITE SOMENTE VALORES NUMÉRICO.")
         sleep(2)
 
-    except oracledb.IntegrityError:
-        print("\nPREENCHA TODOS OS DADOS.")
-        sleep(2)
+    #except oracledb.IntegrityError:
+        #print("\nPREENCHA TODOS OS DADOS.")
+        #sleep(2)
 
-    except oracledb.DatabaseError:
-        print("\nOS CAMPOS TEM NO MAXIMO 5 CARACTERES (XXXXX).")
-        sleep(2)
+    #except oracledb.DatabaseError:
+        #print("\nOS CAMPOS TEM NO MAXIMO 5 CARACTERES (XXXXX).")
+        #sleep(2)
 
 # VERIFICAR UM EXCEPT P/ QUANDO COLOCAR UM ID JÁ EXISTENTE ***************************************************************************************************************************************
 
-    except:
-        print("\nERRO BANCO DE DADOS")
-        sleep(2)
+    #except:
+        #print("\nERRO BANCO DE DADOS")
+        #sleep(2)
 
     else:
         print("\nCADASTRO REALIZADO.")
