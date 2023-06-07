@@ -38,9 +38,10 @@ def reportUser():
             INNER JOIN USUARIO ON PLANTACAO.COD_USUARIO = USUARIO.COD_USUARIO
             INNER JOIN HORTA ON PLANTACAO.COD_HORTA = HORTA.COD_HORTA
             INNER JOIN ALIMENTO ON PLANTACAO.COD_ALIMENTO = ALIMENTO.COD_ALIMENTO
-            WHERE COD_USUARIO = {id}"""
+            WHERE PLANTACAO.COD_USUARIO = {id}"""
+
         inst_extract.execute(extract)
-        data = inst_consult.fetchall()
+        data = inst_extract.fetchall()
 
         for oneData in data:
             dataList.append(oneData)
@@ -48,7 +49,7 @@ def reportUser():
         dataList = sorted(dataList)
 
         dataDf = pd.DataFrame.from_records(dataList, columns=['USUARIO', 'HORTA', 'ALIMENTO', 'FILEIRA', 'POSIÇÃO'],
-                                           index='NOME')
+                                           index='USUARIO')
 
         if dataDf.empty:
             print("\nUSUÁRIO NÃO NÃO EXISTE.")
@@ -75,10 +76,10 @@ def reportFood():
         extract = f"""SELECT NOME_ALIMENTO, QNTD_PLANTADA, NOME_HORTA, FILEIRA, POSICAO FROM PLANTACAO
             INNER JOIN HORTA ON PLANTACAO.COD_HORTA = HORTA.COD_HORTA
             INNER JOIN ALIMENTO ON PLANTACAO.COD_ALIMENTO = ALIMENTO.COD_ALIMENTO
-            WHERE COD_ALIMENTO = {id}"""
+            WHERE PLANTACAO.COD_ALIMENTO = {id}"""
 
         inst_extract.execute(extract)
-        data = inst_consult.fetchall()
+        data = inst_extract.fetchall()
 
         for oneData in data:
             dataList.append(oneData)
@@ -114,10 +115,10 @@ def reportGarden():
         extract = f"""SELECT NOME_HORTA, FILEIRA, POSICAO, NOME_ALIMENTO FROM PLANTACAO
             INNER JOIN HORTA ON PLANTACAO.COD_HORTA = HORTA.COD_HORTA
             INNER JOIN ALIMENTO ON PLANTACAO.COD_ALIMENTO = ALIMENTO.COD_ALIMENTO
-            WHERE COD_HORTA = {id}"""
+            WHERE PLANTACAO.COD_HORTA = {id}"""
 
         inst_extract.execute(extract)
-        data = inst_consult.fetchall()
+        data = inst_extract.fetchall()
 
         for oneData in data:
             dataList.append(oneData)
