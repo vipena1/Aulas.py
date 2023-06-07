@@ -2,16 +2,16 @@
 JOSÉ CARLOS DA SILVA - RM 97385
 LEONARDO GUIMARÃES DE LIMA MARQUES - RM 96409
 MARIA LUIZA DE GOVEIA LIMA - RM 97569
-MARIANA
+MARIANA MARQUES SABIO - RM 96906
 VINICIUS DE ABREU PENA - RM 96881"""
 
 import oracledb as orcl
-import pandas as pd
 from time import sleep
 import user
 import food
 import garden
 import plantation
+import report
 
 try:
     # Abrindo conexão com o banco
@@ -22,7 +22,7 @@ try:
     inst_register = conn.cursor()
     inst_update = conn.cursor()
     inst_delete = conn.cursor()
-    inst_extract = conn.cursor()  # extrair relatorios
+
 
 except Exception as e:
     # Se der erro retornara o motivo
@@ -218,14 +218,17 @@ DIGITE UMA OPÇÃO: """))
 
 DIGITE UMA OPÇÃO: """))
 
+            # RELATÓRIO POR USUÁRIO
             if opt == 1:
-                print('USUARIO - HORTA - ALIMENTO - QNTD PLANTADA')
+                report.reportUser()
 
+            # RELATÓRIO POR ALIMENTO
             elif opt == 2:
-                print('ALIMENTO - HORTA - FILEIRA - POSIÇÃO - QNTD PLANTADA')
+                report.reportFood()
 
+            # RELATÓRIO POR HORTA
             elif opt == 3:
-                print('HORTA - FILEIRA - POSIÇÃO - ALIMENTO')
+                report.reportGarden()
 
             elif opt == 0:
                 print("\nVOLTE SEMPRE!")
