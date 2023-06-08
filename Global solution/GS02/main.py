@@ -22,6 +22,7 @@ try:
     inst_register = conn.cursor()
     inst_update = conn.cursor()
     inst_delete = conn.cursor()
+    inst_extract = conn.cursor()
 
 
 except Exception as e:

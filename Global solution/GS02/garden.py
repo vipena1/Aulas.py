@@ -31,7 +31,7 @@ def insert():
     try:
         # COLETA DE DADOS DA HORTA
         idGarden = int(input("CODIGO DA HORTA: "))
-        name = input("NOME DA HORTA: ")
+        name = input("NOME DA HORTA: ").upper()
         storagePlanting = int(input("CAPACIDADE PLANTIO: "))
 
         # COMANDO P/ REGISTRO NO SQL
@@ -224,7 +224,7 @@ SELECIONE QUAL DADO DESEJA ALTERAR: """))
                 # ALTERAR CAPACIDADE DA HORTA
                 elif opt == 3:
                     try:
-                        newStorage = int(input("\nNOVO E-MAIL: "))
+                        newStorage = int(input("\nNOVA CAPACIDADE: "))
 
                         alter = f"""UPDATE HORTA SET CAPACIDADE_PLANTIO = {newStorage} WHERE COD_HORTA = {id}"""
 
