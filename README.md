@@ -1,1 +1,1 @@
-# PYTHON
+Repositório criado para salvar e compartilhar projetos e aulas desde o primeiro dia em análise e desenvolvimento de sistemas.
