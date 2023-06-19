@@ -1,4 +1,4 @@
-# Funções para entidade platacao
+# Funções para entidade plantacao
 
 import oracledb as orcl
 import oracledb.exceptions
@@ -30,7 +30,7 @@ else:
 # FUNÇÃO P/ INSERIR NOVO LANÇAMENTO NA PLANTACAO
 def insert():
     try:
-        # COLETA DE DADOS DA PLATACAO
+        # COLETA DE DADOS DA PLANTACAO
         idPlantation = int(input("\nCODIGO DA PLATAÇÃO: "))
         idUser = int(input("CODIGO DO USUÁRIO: "))
         idFood = int(input("CODIGO DO ALIMENTO: "))
@@ -93,9 +93,11 @@ def insert():
     else:
         if (currentQty[0][0] - qtyPlantation) < 0:
             print("A QUANTIDADE DE SEMENTES NO ESTOQUE NÃO PODE SER NEGATIVA.")
+            sleep(2)
 
         else:
             print("\nPLANTAÇÃO REALIZADA.")
+            sleep(2)
 
 
 # FUNÇÃO P/ LER A TABELA PLANTACAO
@@ -149,7 +151,7 @@ def alter():
         sleep(2)
 
     else:
-        consult = f"""SELECT * FROM PLATACAO WHERE COD_PLATACAO = {id}"""
+        consult = f"""SELECT * FROM PLANTACAO WHERE COD_PLANTACAO = {id}"""
 
         inst_consult.execute(consult)
         data = inst_consult.fetchall()
@@ -184,7 +186,7 @@ SELECIONE QUAL DADO DESEJA ALTERAR: """))
                     try:
                         newIdPlantation = int(input("\nNOVO ID PLANTAÇÃO: "))
 
-                        alter = f"""UPDATE PLANTACAO SET COD_PLATACAO = {newIdPlantation} WHERE COD_PLATACAO = {id}"""
+                        alter = f"""UPDATE PLANTACAO SET COD_PLANTACAO = {newIdPlantation} WHERE COD_PLANTACAO = {id}"""
 
                         inst_update.execute(alter)
                         conn.commit()
@@ -220,7 +222,7 @@ SELECIONE QUAL DADO DESEJA ALTERAR: """))
                     try:
                         newIdUser = int(input("\nNOVO ID USUARIO: "))
 
-                        alter = f"""UPDATE PLANTACAO SET COD_USUARIO = {newIdUser} WHERE COD_PLATACAO = {id}"""
+                        alter = f"""UPDATE PLANTACAO SET COD_USUARIO = {newIdUser} WHERE COD_PLANTACAO = {id}"""
 
                         inst_update.execute(alter)
                         conn.commit()

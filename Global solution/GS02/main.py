@@ -22,6 +22,7 @@ try:
     inst_register = conn.cursor()
     inst_update = conn.cursor()
     inst_delete = conn.cursor()
+    inst_extract = conn.cursor()
 
 
 except Exception as e:
@@ -39,7 +40,7 @@ while connection:
 1 - USUÁRIO
 2 - ALIMENTO
 3 - HORTA
-4 - PLANTAÇÃO
+4 - PLANTAÇÃO 
 5 - RELATORIOS
 0 - SAIR
 SELECIONE UM NÚMERO PARA REALIZAR ALTERAÇÕES: """))
