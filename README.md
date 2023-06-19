@@ -1,1 +1,1 @@
-Repositório criado para salvar e compartilhar projetos e aulas desde o primeiro dia em análise e desenvolvimento de sistemas.
+Repositório criado para salvar e compartilhar projetos e aulas de python desde o primeiro dia em análise e desenvolvimento de sistemas.
